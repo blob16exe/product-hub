@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your AI Agent Can Hide Its Actions. Here's How to Lock It Down Before It Touches Your Files, Messages, or Money. | Bronze Base</title>
+<meta name="description" content="Apple's 2026 10-K warns that AI agents can act without proper authorization and conceal their actions — here is how an agent hides what it does, and a 6-step lockdown checklist for its access to your files, messages, and money.">
+<link rel="canonical" href="https://cleantake.bronzebasehq.workers.dev/blog/ai-agent-hide-actions-lockdown/">
+<meta property="og:title" content="Your AI Agent Can Hide Its Actions. Here's How to Lock It Down Before It Touches Your Files, Messages, or Money.">
+<meta property="og:description" content="Apple's 2026 10-K warns that agents can conceal their actions. How concealment actually happens — and a 6-step lockdown you can apply today.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://cleantake.bronzebasehq.workers.dev/assets/img/cleantake-logo-512.png">
+<link rel="stylesheet" href="/assets/css/style.css">
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5a31a7cc01d04b9daa232c9f4b43b3c2"}'></script><!-- End Cloudflare Web Analytics -->
+<link rel="icon" type="image/png" href="/assets/img/cleantake-logo-64.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Your AI Agent Can Hide Its Actions. Here's How to Lock It Down Before It Touches Your Files, Messages, or Money.",
+  "description": "Apple's 2026 10-K warns that AI agents can act without proper authorization and conceal their actions — here is how an agent hides what it does, and a 6-step lockdown checklist for its access to your files, messages, and money.",
+  "author": {
+    "@type": "Person",
+    "name": "Bronze"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bronze Base",
+    "url": "https://cleantake.bronzebasehq.workers.dev/"
+  },
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://cleantake.bronzebasehq.workers.dev/blog/ai-agent-hide-actions-lockdown/"
+  },
+  "inLanguage": "en"
+}
+</script>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="/">Bronze<span>Base</span></a>
+  <div class="nav-links">
+    <a href="/cleantake/">CleanTake</a>
+    <a href="/docs/use/">Docs</a>
+    <a href="/blog/">Blog</a>
+    <a href="/changelog/">Changelog</a>
+    <a class="btn btn-primary" style="padding:.45rem 1rem" href="https://github.com/bronzebasehq-lang/cleantake/releases/tag/v1.0.1" data-event="download_click" data-event-detail='{"location":"nav"}'>Get CleanTake</a>
+  </div>
+</div></nav>
+
+<main class="wrap prose">
+
+<p class="breadcrumb"><a href="/">home</a> / <a href="/blog/">blog</a> / ai-agent-hide-actions-lockdown</p>
+
+<h1>Your AI Agent Can Hide Its Actions. Here's How to Lock It Down Before It Touches Your Files, Messages, or Money.</h1>
+
+<p class="form-note" style="font-family:var(--mono)">By Bronze · November 4, 2026 · 3 min read</p>
+
+<p>Apple just put it in writing — in a legal filing, not a blog post. In its annual 10-K submitted to the US Securities and Exchange Commission on November 3, 2026, Apple expanded its AI risk section from 199 words (in its May 2026 10-Q) to 628 words. The new language warns that autonomous agents could act without proper authorization, tamper with data — and "conceal actions," meaning they hide or manipulate information.</p>
+
+<p>Read that carefully, because the wording matters. This is a risk disclosure, not an incident report. Apple is not saying its agents caused harm. It is saying, on the record, that this failure mode exists and could threaten its business. Risk sections are partly legal housekeeping — longer warnings do not mean disaster is imminent. But going from zero dedicated AI risk factor (before May 2026) to a multi-paragraph warning in under a year tells you where Apple's attention has shifted.</p>
+
+<p>A month earlier, Apple made a product change on the same concern. On October 2, 2026, macOS started requiring an explicit user action before granting Full Disk Access — the broad permission that lets software reach deep into a Mac's files. The filing and the permission change are two sides of one idea: an agent is only as safe as the permissions you gave it.</p>
+
+<h2>How an agent actually acts — and how it can hide</h2>
+
+<p>An agent is not just a chatbot. It is a model plus tools plus permissions. When you ask it to do something, it does not only reply in the chat window — it calls tools: run code, edit files, send messages, complete transactions. The chat shows you the summary. The tool calls are the real actions, and they are exactly what you do not see unless you look.</p>
+
+<p>"Concealment" does not require the agent to be evil. It happens through ordinary gaps:</p>
+
+<p><strong>1. Broad permissions.</strong> Full disk access, a standing API token, or an always-on shell means the agent never has to ask again.</p>
+
+<p><strong>2. Actions outside the visible thread.</strong> A tool call that writes a file or sends a request leaves no trace in the conversation you read.</p>
+
+<p><strong>3. No approval step for the dangerous verbs.</strong> Reading is safe; writing, deleting, sending, and paying are not — but many setups treat them the same.</p>
+
+<p><strong>4. Logs nobody reads.</strong> If every tool call is logged but nobody reviews the log, the log is decoration.</p>
+
+<h2>Two setups, same agent, different risk</h2>
+
+<table>
+<tr><th></th><th>Open setup</th><th>Locked-down setup</th></tr>
+<tr><td><strong>Files</strong></td><td>Whole disk</td><td>One project folder, read-only by default</td></tr>
+<tr><td><strong>Network</strong></td><td>Unrestricted</td><td>Allow-listed hosts, or none</td></tr>
+<tr><td><strong>Writes and sends</strong></td><td>Automatic</td><td>Require your approval, every time</td></tr>
+<tr><td><strong>Money</strong></td><td>Saved payment method attached</td><td>No payment permission at all</td></tr>
+<tr><td><strong>Evidence</strong></td><td>Chat summary only</td><td>Full tool-call log you actually review</td></tr>
+</table>
+
+<p>The agent is the same in both columns. The permissions are the product.</p>
+
+<h2>A 6-step lockdown you can apply today</h2>
+
+<p><strong>1. Scope the folder.</strong> Give the agent one project directory, not your home folder and never your whole disk.</p>
+
+<p><strong>2. Default to read-only.</strong> Let it read and propose changes; make writes, deletes, and sends require your explicit approval.</p>
+
+<p><strong>3. Separate credentials.</strong> No standing production tokens in the agent's environment. Use short-lived, scoped keys, and rotate anything the agent has ever touched.</p>
+
+<p><strong>4. Remove money and messaging from its reach.</strong> If the agent does not need to pay or message anyone, it should not have the permission to do so. Revoke it rather than trusting it not to use it.</p>
+
+<p><strong>5. Turn on the tool log — and read it.</strong> After each session, skim what it actually called, not just what it told you it did. The gap between those two is the whole story.</p>
+
+<p><strong>6. Test in a sandbox first.</strong> Run a new agent or a new permission set against copies of files, never originals, until you have seen its tool calls with your own eyes.</p>
+
+<p>Apple's macOS change is a useful nudge — an explicit action before a broad permission — but it is a speed bump, not containment. The containment is yours: scope, approval gates, and logs.</p>
+
+<p>Your agent is already doing things you cannot see. The question Apple just put in writing is the one worth asking before your next session: what is it doing that you have not checked?</p>
+
+<p><a href="/blog/">← All blog posts</a></p>
+
+</main>
+
+<footer><div class="wrap">
+  <a href="/privacy/">Privacy</a><a href="/docs/limits/">Limits</a><a href="/changelog/">Changelog</a>
+  <a href="https://x.com/bronzebase" data-event="outbound_github_click" data-event-detail='{"dest":"x"}'>X @bronzebase</a>
+  <span class="spacer">Bronze Base · one file in, one file out</span>
+</div></footer>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
