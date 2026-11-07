@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cleantake.bronzebasehq.workers.dev/sitemap.xml
+Sitemap: https://blob.blob16exe.workers.dev/sitemap.xml
