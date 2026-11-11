@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edge-TTS vs Kokoro: Two Free Ways to Make a Voice — Which One Belongs in Your Videos? | Bronze Base</title>
+<meta name="description" content="Edge-TTS gives you Microsoft's neural voices — and the only free Vietnamese ones — but it can hang, throttle, and sits in a licensing grey area. Kokoro-82M is Apache 2.0, fully offline, and boringly reliable. A working comparison from a faceless video workflow.">
+<link rel="canonical" href="https://blob.blob16exe.workers.dev/blog/edge-tts-vs-kokoro/">
+<meta property="og:title" content="Edge-TTS vs Kokoro: Two Free Ways to Make a Voice — Which One Belongs in Your Videos?">
+<meta property="og:description" content="The best free voices run on someone else's terms; the open model is completely yours. Reliability, licensing, and which one to trust when your videos start making money.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://blob.blob16exe.workers.dev/assets/img/cleantake-logo-512.png">
+<link rel="stylesheet" href="/assets/css/style.css">
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5a31a7cc01d04b9daa232c9f4b43b3c2"}'></script><!-- End Cloudflare Web Analytics -->
+<link rel="icon" type="image/png" href="/assets/img/cleantake-logo-64.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Edge-TTS vs Kokoro: Two Free Ways to Make a Voice — Which One Belongs in Your Videos?",
+  "description": "Edge-TTS gives you Microsoft's neural voices — and the only free Vietnamese ones — but it can hang, throttle, and sits in a licensing grey area. Kokoro-82M is Apache 2.0, fully offline, and boringly reliable.",
+  "author": {
+    "@type": "Person",
+    "name": "Bronze"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bronze Base",
+    "url": "https://blob.blob16exe.workers.dev/"
+  },
+  "datePublished": "2026-11-11",
+  "dateModified": "2026-11-11",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blob.blob16exe.workers.dev/blog/edge-tts-vs-kokoro/"
+  },
+  "inLanguage": "en"
+}
+</script>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="/">Bronze<span>Base</span></a>
+  <div class="nav-links">
+    <a href="/cleantake/">CleanTake</a>
+    <a href="/docs/use/">Docs</a>
+    <a href="/blog/">Blog</a>
+    <a href="/changelog/">Changelog</a>
+    <a class="btn btn-primary" style="padding:.45rem 1rem" href="https://github.com/blob16exe/cleantake/releases/tag/v1.0.1" data-event="download_click" data-event-detail='{"location":"nav"}'>Get CleanTake</a>
+  </div>
+</div></nav>
+
+<main class="wrap prose">
+
+<p class="breadcrumb"><a href="/">home</a> / <a href="/blog/">blog</a> / edge-tts-vs-kokoro</p>
+
+<h1>Edge-TTS vs Kokoro: Two Free Ways to Make a Voice — Which One Belongs in Your Videos?</h1>
+
+<p class="form-note" style="font-family:var(--mono)">By Bronze · November 11, 2026 · 5 min read</p>
+
+<p>This morning my own voice tool froze on me.</p>
+
+<p>I clicked "Generate Voice," picked a Microsoft Edge voice, waited. And waited. No audio. No error. No timeout message. Just a button that looked busy and an output folder that stayed empty.</p>
+
+<p>That freeze is exactly why I built the tool with two engines instead of one — and why the choice between Edge-TTS and Kokoro is not really about which one sounds better. It's about which one you can trust when you're shipping videos on a schedule, and which one you can trust when those videos start making money.</p>
+
+<h2>Why I needed both</h2>
+
+<p>I make faceless videos. No camera, no real voice on the mic. For months the workflow was backwards: render the video first, then squeeze a voiceover into shots already cut. The voice always lost — a line would spill into the next shot, or I'd speed up the narration until it sounded rushed.</p>
+
+<p>So I flipped it: script first, voice second, render last. The voice decides how long each shot lives. I built a small desktop tool for this — Voice Studio — that takes a script one line per shot, generates each line separately, stitches them with controlled pauses, and exports two files: <code>voice.mp3</code> and <code>timings.json</code>, a map of exactly when each line starts and ends. Picture and voice line up by construction, not by hope.</p>
+
+<p>The tool needed voices. Free ones, because the budget here is zero. That search narrowed to two real options.</p>
+
+<h2>Edge-TTS: the best free voices, on someone else's terms</h2>
+
+<p>Edge-TTS uses the same neural voices as Microsoft Edge's Read Aloud feature. The quality is genuinely high — these are not robotic formant voices from 2010. It needs no API key, costs nothing, and for my use case it had one killer feature: Vietnamese.</p>
+
+<p>For Vietnamese there are exactly two voices: NamMinh, a male voice, and HoaiMy, a female voice. That's it. Two. But two is infinitely more than zero, which is what every open model I tried offered. My desk robot speaks Vietnamese through NamMinh, and my Vietnamese voiceovers come from the same place.</p>
+
+<p>The catch is how Edge-TTS works. It is not an official, documented API. It's a community-maintained route into an endpoint Microsoft runs for its browser. That means:</p>
+
+<ul>
+  <li>It can hang. Like it did this morning — the stream sometimes comes back empty, or stalls for 30 seconds or more, and if your code doesn't set a timeout and retry, your app just sits there forever. Version 1 of my tool made exactly that mistake.</li>
+  <li>Microsoft can throttle your IP or change how the endpoint authenticates, at any time, without notice. There is no support ticket to file. It works until it doesn't.</li>
+  <li>The licensing is a grey area. The terms don't clearly grant commercial rights to the output. In Microsoft's own Q&amp;A forums, the guidance for commercial use points you to Azure Speech — the paid product. I am not a lawyer, but "the vendor's own staff suggest paying if you want to sell things with this" is a signal I take seriously.</li>
+</ul>
+
+<h2>Kokoro: less glamorous, completely yours</h2>
+
+<p>Kokoro-82M is a small open text-to-speech model released under Apache 2.0. That license matters more than any feature: commercial use is explicitly fine. You can monetize videos with it, sell audio made with it, ship it inside a product. No grey area.</p>
+
+<p>It runs fully offline on your own machine. The build I'm using is the sherpa-onnx package, <code>kokoro-en-v0_19</code>, which bundles 11 English voices in a single model file — American and British, male and female. The voice of my English channel is one of them, <code>am_adam</code>.</p>
+
+<p>No network means no hangs, no throttling, no surprise shutdowns. When I tested the pipeline with a four-line script, the tool produced 8.380 seconds of audio, and the timings file matched the actual file length measured by ffprobe to 0.0000 seconds. Boring, predictable — exactly what a production tool should be.</p>
+
+<p>The limitations are real. The voice selection is fixed — 11 voices, not hundreds. The delivery is good but flatter than Microsoft's best; you earn back some life with shorter lines, faster pacing (I run it at 1.25x), and deliberate pauses. And there is no Vietnamese voice at all, so for my Vietnamese content Kokoro isn't an option today.</p>
+
+<h2>Side by side</h2>
+
+<table>
+<tr><th></th><th>Edge-TTS</th><th>Kokoro-82M</th></tr>
+<tr><td><strong>Price</strong></td><td>Free, no key</td><td>Free, open source</td></tr>
+<tr><td><strong>License</strong></td><td>No clear commercial grant</td><td>Apache 2.0 — commercial OK</td></tr>
+<tr><td><strong>Runs</strong></td><td>Online, Microsoft's servers</td><td>Offline, your machine</td></tr>
+<tr><td><strong>Languages for me</strong></td><td>English + Vietnamese (2 VI voices)</td><td>English only (11 voices)</td></tr>
+<tr><td><strong>Voice quality</strong></td><td>Excellent neural</td><td>Good, slightly flat</td></tr>
+<tr><td><strong>Reliability</strong></td><td>Can hang, throttle, or change without notice</td><td>Deterministic, always available</td></tr>
+<tr><td><strong>Failure mode</strong></td><td>Silent freeze (no timeout = stuck)</td><td>None observed</td></tr>
+</table>
+
+<h2>What I actually do now</h2>
+
+<p>English narration for videos I intend to monetize goes through Kokoro. Not because it sounds the best — it doesn't — but because it's the voice I fully own the rights to use, and it will still be working the morning Microsoft decides to lock a door. When money is attached, "probably fine" is not a license strategy.</p>
+
+<p>Vietnamese narration still goes through Edge-TTS, because right now it's the only free option that exists. I accept the two risks with my eyes open, and I engineer around the one I can control: every Edge call in the tool needs a timeout, a retry, and a visible error instead of a silent freeze — the fix going into the next version after this morning's lesson. The risk I can't control, the licensing grey area, is exactly why Vietnamese content is not where I'd build a revenue line today.</p>
+
+<p>If you're picking one: pick based on what breaks your project. If a dead API on upload day breaks you, go offline and open. If your language isn't in the open models yet, use the free cloud voice — but wrap it in timeouts, keep a fallback ready, and don't build your income on rights you were never actually granted.</p>
+
+<p>Free is a price. It just isn't always the whole cost.</p>
+
+<p><a href="/blog/">← All blog posts</a></p>
+
+</main>
+
+<footer><div class="wrap">
+  <a href="/privacy/">Privacy</a><a href="/docs/limits/">Limits</a><a href="/changelog/">Changelog</a>
+  <a href="https://x.com/bronzebase" data-event="outbound_github_click" data-event-detail='{"dest":"x"}'>X @bronzebase</a>
+  <span class="spacer">Bronze Base · one file in, one file out</span>
+</div></footer>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
