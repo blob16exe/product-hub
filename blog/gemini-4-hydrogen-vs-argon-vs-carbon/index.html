@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gemini 4 Hydrogen vs Argon vs Carbon: Which Model for Which Job — and How to Run All Three in One Session | Bronze Base</title>
+<meta name="description" content="Google's three Gemini 4 models are three different jobs: Carbon thinks deep, Argon does most of the work, Hydrogen executes fast and cheap. A side-by-side comparison with prices, benchmarks, and the Antigravity Orchestrator workflow that runs all three in one session.">
+<link rel="canonical" href="https://blob.blob16exe.workers.dev/blog/gemini-4-hydrogen-vs-argon-vs-carbon/">
+<meta property="og:title" content="Gemini 4 Hydrogen vs Argon vs Carbon: Which Model for Which Job — and How to Run All Three in One Session">
+<meta property="og:description" content="Most of a software task is not deep thinking — it is execution. Pay frontier prices only for the thinking, and let the fast model do the typing.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://blob.blob16exe.workers.dev/assets/img/cleantake-logo-512.png">
+<link rel="stylesheet" href="/assets/css/style.css">
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5a31a7cc01d04b9daa232c9f4b43b3c2"}'></script><!-- End Cloudflare Web Analytics -->
+<link rel="icon" type="image/png" href="/assets/img/cleantake-logo-64.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Gemini 4 Hydrogen vs Argon vs Carbon: Which Model for Which Job — and How to Run All Three in One Session",
+  "description": "Google's three Gemini 4 models are three different jobs: Carbon thinks deep, Argon does most of the work, Hydrogen executes fast and cheap. A side-by-side comparison with prices, benchmarks, and the Antigravity Orchestrator workflow.",
+  "author": {
+    "@type": "Person",
+    "name": "Bronze"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bronze Base",
+    "url": "https://blob.blob16exe.workers.dev/"
+  },
+  "datePublished": "2026-11-14",
+  "dateModified": "2026-11-14",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blob.blob16exe.workers.dev/blog/gemini-4-hydrogen-vs-argon-vs-carbon/"
+  },
+  "inLanguage": "en"
+}
+</script>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="/">Bronze<span>Base</span></a>
+  <div class="nav-links">
+    <a href="/cleantake/">CleanTake</a>
+    <a href="/docs/use/">Docs</a>
+    <a href="/blog/">Blog</a>
+    <a href="/changelog/">Changelog</a>
+    <a class="btn btn-primary" style="padding:.45rem 1rem" href="https://github.com/blob16exe/cleantake/releases/tag/v1.0.1" data-event="download_click" data-event-detail='{"location":"nav"}'>Get CleanTake</a>
+  </div>
+</div></nav>
+
+<main class="wrap prose">
+
+<p class="breadcrumb"><a href="/">home</a> / <a href="/blog/">blog</a> / gemini-4-hydrogen-vs-argon-vs-carbon</p>
+
+<h1>Gemini 4 Hydrogen vs Argon vs Carbon: Which Model for Which Job — and How to Run All Three in One Session</h1>
+
+<p class="form-note" style="font-family:var(--mono)">By Bronze · November 14, 2026 · 7 min read</p>
+
+<p>Google now has three Gemini 4 models, and the expensive mistake is picking the strongest one for everything.</p>
+
+<p>Hydrogen arrived on November 12, joining Carbon and Argon. They are not three rungs on one ladder. They are three different jobs: one thinks deep, one does most of the work, one executes fast and cheap. Used wrong, you pay frontier prices for typing speed. Used right, the cheap model does most of the work and the expensive one only shows up where it earns its keep.</p>
+
+<p>Here is how they actually differ — and the workflow that lets you use all three in a single session without thinking about switching.</p>
+
+<h2>The three models, in one paragraph each</h2>
+
+<p><strong>Carbon is the deep thinker.</strong> Google calls it the frontier model for deep, long-horizon reasoning on your hardest problems. It leads the family on the Artificial Analysis Intelligence Index at 59, against 50 for Argon. You reach for it when the problem is the thinking itself: system architecture, a subtle bug that has survived three fixes, a security review. It went generally available on November 10, 2026.</p>
+
+<p><strong>Argon is the workhorse.</strong> Also a frontier model, also built for deep reasoning — but Google's own guidance is that Argon "remains the ideal choice for the majority of software engineering and knowledge work." Translation: Carbon is stronger, but it spends more tokens per turn exploring, reasoning, and verifying. For the ordinary run of coding and knowledge work, Argon gets you nearly the same answer for fewer tokens. It went generally available on October 13, 2026.</p>
+
+<p><strong>Hydrogen is the execution engine.</strong> Launched November 12, built for rapid execution across agentic workflows: writing code, running tests, verifying changes, doing it again. It even beats Argon on the Artificial Analysis Intelligence Index at its default high thinking level — 51 against 50, reaching 54 at its highest xhigh setting. Against the previous generation, Gemini 3.8 Flash, it finishes tasks 2.5 times faster and more than triples Terminal-Bench 4.1 scores, from 18.2% to 57%, while cutting fabricated claims by more than 5x. It has four thinking levels — low, medium, high (default), and xhigh — so you pay for only as much reasoning as the task needs.</p>
+
+<h2>Side by side</h2>
+
+<table>
+<tr><th></th><th>Carbon</th><th>Argon</th><th>Hydrogen</th></tr>
+<tr><td><strong>Role</strong></td><td>Deepest reasoning, long-horizon problems</td><td>Frontier all-rounder for most engineering + knowledge work</td><td>Fast, cheap execution for agentic workflows</td></tr>
+<tr><td><strong>Price per 1M tokens (input / output)</strong></td><td>$2 / $10 through Nov 30, 2026; $4 / $20 from Dec 1</td><td>Same as Carbon</td><td>$1.50 / $7.50 flat, whole 1M-token context</td></tr>
+<tr><td><strong>Context window</strong></td><td>1M tokens</td><td>1M tokens</td><td>1M tokens input, up to 1M output</td></tr>
+<tr><td><strong>Intelligence Index (Artificial Analysis)</strong></td><td>59</td><td>50</td><td>51 (high), 54 (xhigh)</td></tr>
+<tr><td><strong>Terminal-Bench 4.1</strong></td><td>—</td><td>—</td><td>57% (vs 18.2% for 3.8 Flash)</td></tr>
+<tr><td><strong>Best for</strong></td><td>Architecture, hard bugs, security review, long-horizon planning</td><td>Day-to-day coding, debugging, research, writing</td><td>Writing code, running tests, verifying changes, parallel agents</td></tr>
+</table>
+
+<p>The pricing needs a warning label. Carbon and Argon share the same per-token price, but that does not mean the same bill: Carbon consumes more tokens for the same job, because it thinks longer. And both prices double on December 1, 2026 — the $2/$10 rate is an introductory price. Hydrogen's $1.50/$7.50 is flat across its entire context window, with no scheduled jump announced.</p>
+
+<p>Do the math on a concrete workload — 1 million input tokens and 200,000 output tokens. Hydrogen costs $3.00. Carbon or Argon costs $4.00 today and $8.00 from December 1. The gap is small on one task and enormous across a month of agent runs.</p>
+
+<h2>The mechanism that makes three models practical: Orchestrator</h2>
+
+<p>Knowing which model fits which job is only half the problem. The other half is switching — and nobody wants to stop mid-task, copy context into a new chat, and pick a different model by hand.</p>
+
+<p>That is what Orchestrator in Google Antigravity does. Instead of one model from start to finish, it dynamically switches between models like Carbon and Hydrogen inside the same session. Google's numbers, on Terminal-Bench 4.0: Orchestrator reaches near-Carbon task success rates while consuming 24% less quota and finishing 19% faster on average.</p>
+
+<p>The pattern Google describes is a small team, not a single worker. Carbon acts as coordinator; Hydrogen powers worker and verifier agents that build and test changes simultaneously across isolated workspaces. The expensive brain plans and checks; the cheap hands type and run.</p>
+
+<h2>How to run it: one session, three roles</h2>
+
+<p>Here is the workflow the mechanism implies, applied to a real job — say, adding authentication to an existing app:</p>
+
+<p><strong>1. Give Carbon the design.</strong> Open the session and hand the coordinator the hard part: the auth architecture, the threat model, what "done" looks like. This is the one decision where deep reasoning pays for itself. Ask for a plan with named files, named functions, and the tests that will prove each piece works.</p>
+
+<p><strong>2. Let Hydrogen execute.</strong> The implementation — writing the code, wiring the routes, running the tests — goes to Hydrogen workers. This is where the volume lives, and Hydrogen is built for exactly this: surgical edits, batched file reads, fast iteration. If a tool call fails or a search comes back empty, Hydrogen adapts instead of stalling, which is the failure mode that used to kill cheap-model runs.</p>
+
+<p><strong>3. Let Hydrogen verify in parallel.</strong> A second Hydrogen agent checks the work while the first one is still building: run the tests, read the diff, look for the places where the code contradicts the plan. Verification is a fast, repeatable job — it does not need the frontier model.</p>
+
+<p><strong>4. Bring Carbon back for the final review.</strong> One pass over the finished diff, by the model that designed it. Did the implementation drift from the plan? Is there a security hole the verifier missed? Carbon's job is to catch the one thing that matters, not to re-read every line.</p>
+
+<p><strong>5. Keep the cheap model on the small stuff.</strong> Between the big jobs, Hydrogen handles the everyday work directly: drafting, research, summarizing dense files. It is also the model now running inside Google Search for all users globally, and inside the Gemini app — the same speed that makes it cheap makes it the default for anything interactive.</p>
+
+<p>Two habits make this work in practice. First, write the acceptance criteria before you start — "the login route returns 401 without a token, 200 with one" — because a verifier can only check what you stated. Second, watch token counts per task, not per-token prices: Carbon's bill is higher than its price tag suggests, and the only way to know by how much is to measure your own workloads.</p>
+
+<h2>The rule of thumb</h2>
+
+<ul>
+  <li>Architecture, a hard bug, a security decision → <strong>Carbon</strong>.</li>
+  <li>The coding and knowledge work you do every day → <strong>Argon</strong>.</li>
+  <li>Writing, testing, verifying, and anything you run in bulk or in parallel → <strong>Hydrogen</strong>.</li>
+  <li>A job with all three phases → <strong>Orchestrator in Antigravity</strong>, and let it switch for you.</li>
+</ul>
+
+<p>The point is not that Hydrogen replaces Carbon. It is that most of a software task is not deep thinking — it is execution. Pay frontier prices only for the thinking, and let the fast model do the typing.</p>
+
+<h2>Sources</h2>
+
+<ul>
+  <li>Google, "Introducing Gemini 4 Hydrogen," November 12, 2026 (updated November 13) — Hydrogen pricing, benchmarks, Orchestrator results, thinking levels, availability.</li>
+  <li>Google Gemini API pricing page (checked November 14, 2026) — Carbon and Argon at $2/$10 per million tokens through November 30, 2026, $4/$20 from December 1; cached input $0.10.</li>
+  <li>Artificial Analysis Intelligence Index — Carbon 59, Argon 50, Hydrogen 51 (high) / 54 (xhigh).</li>
+  <li>Google launch posts for Argon (October 13, 2026) and Carbon (announced October 28, generally available November 10, 2026).</li>
+</ul>
+
+<p><em>Prices are introductory and change on December 1, 2026 — check Google's pricing page before running a large workload.</em></p>
+
+<p><a href="/blog/">← All blog posts</a></p>
+
+</main>
+
+<footer><div class="wrap">
+  <a href="/privacy/">Privacy</a><a href="/docs/limits/">Limits</a><a href="/changelog/">Changelog</a>
+  <a href="https://x.com/bronzebase" data-event="outbound_github_click" data-event-detail='{"dest":"x"}'>X @bronzebase</a>
+  <span class="spacer">Bronze Base · one file in, one file out</span>
+</div></footer>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
