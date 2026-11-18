@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where Your Coding Agent Burns Its Budget: Choose the Harness per Model, Not per Habit | Bronze Base</title>
+<meta name="description" content="In a 27,280-run benchmark, 64.5% of coding-agent inference spend went to runs that failed or timed out — and the cheapest harness for one model ranked 16th for another. Why failures cost so much, how to measure your own failure bill, and a checklist to cut it before the next run.">
+<link rel="canonical" href="https://blob.blob16exe.workers.dev/blog/coding-agent-cost/">
+<meta property="og:title" content="Where Your Coding Agent Burns Its Budget: Choose the Harness per Model, Not per Habit">
+<meta property="og:description" content="Most of your agent budget buys failure. The fix is not a cheaper model — it is measuring cost per passed task and re-picking the harness every time the model changes.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://blob.blob16exe.workers.dev/assets/img/cleantake-logo-512.png">
+<link rel="stylesheet" href="/assets/css/style.css">
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5a31a7cc01d04b9daa232c9f4b43b3c2"}'></script><!-- End Cloudflare Web Analytics -->
+<link rel="icon" type="image/png" href="/assets/img/cleantake-logo-64.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Where Your Coding Agent Burns Its Budget: Choose the Harness per Model, Not per Habit",
+  "description": "In a 27,280-run benchmark, 64.5% of coding-agent inference spend went to runs that failed or timed out — and the cheapest harness for one model ranked 16th for another. Why failures cost so much, how to measure your own failure bill, and a checklist to cut it before the next run.",
+  "author": {
+    "@type": "Person",
+    "name": "Bronze"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bronze Base",
+    "url": "https://blob.blob16exe.workers.dev/"
+  },
+  "datePublished": "2026-11-18",
+  "dateModified": "2026-11-18",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blob.blob16exe.workers.dev/blog/coding-agent-cost/"
+  },
+  "inLanguage": "en"
+}
+</script>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="/">Bronze<span>Base</span></a>
+  <div class="nav-links">
+    <a href="/cleantake/">CleanTake</a>
+    <a href="/docs/use/">Docs</a>
+    <a href="/blog/">Blog</a>
+    <a href="/changelog/">Changelog</a>
+    <a class="btn btn-primary" style="padding:.45rem 1rem" href="https://github.com/blob16exe/cleantake/releases/tag/v1.0.1" data-event="download_click" data-event-detail='{"location":"nav"}'>Get CleanTake</a>
+  </div>
+</div></nav>
+
+<main class="wrap prose">
+
+<p class="breadcrumb"><a href="/">home</a> / <a href="/blog/">blog</a> / coding-agent-cost</p>
+
+<h1>Where Your Coding Agent Burns Its Budget: Choose the Harness per Model, Not per Habit</h1>
+
+<p class="form-note" style="font-family:var(--mono)">By Bronze · November 18, 2026 · 7 min read</p>
+
+<p>Most of the money you spend on a coding agent does not buy working code. It buys failure.</p>
+
+<p>That is not a vibe. It is a measurement. Runta and Baseten just ran 27,280 coding-agent trials — 22 harness configurations, 5 open-weight models, 62 terminal tasks, 4 attempts each, 83 billion tokens in total — and counted where the money went. 64.5% of the estimated inference cost went to runs that did not pass: 52.7% to outright failures and 11.8% to timeouts. Roughly two dollars in every three bought a run that produced nothing you could ship.</p>
+
+<p>If you run agents daily, that ratio is probably sitting in your own bill too. This post is about why it happens, how to measure your own version of it, and what to change before the next run — starting with the least obvious lever: the harness, and the fact that the right one changes every time the model does.</p>
+
+<h2>What was actually measured</h2>
+
+<p>The benchmark is FrontierHarness Eval v1.1, published by Runta with models served by Baseten. A "harness" is the wrapper around the model — Codex CLI, Claude Code, OpenCode, Pi and 18 other configurations — the part that decides what context gets sent, which tools are offered, and how the agent loops. The model was held fixed while the wrapper changed, and the wrapper alone moved cost per task by 1.8 to 5.0 times.</p>
+
+<p>Two caveats before the numbers harden into folklore. First, the costs are estimates at list prices, not billed invoices. Second, Runta sells sandbox runtime infrastructure and the eval ran on its own runtime — the company flagged that conflict itself. Treat the study as a strong, unusually large signal about shape, not as gospel about any single harness.</p>
+
+<p>With that said, the shape is hard to argue with:</p>
+
+<ul>
+  <li><strong>Failure is the largest line item.</strong> 64.5% of spend went to trials that did not pass.</li>
+  <li><strong>Spending more did not buy passes.</strong> Higher spend showed little relationship to higher pass rates.</li>
+  <li><strong>The best-value harness was different for every model</strong> — and the rankings moved sharply between models. The median harness moved 11 of 22 places.</li>
+  <li><strong>The failed runs rarely knew they failed.</strong> About three in four failed trials ended with a normal final answer rather than a timeout, and among the five best-value harnesses, 68% to 82% of failed runs still finished with a confident answer.</li>
+</ul>
+
+<h2>Why a failed run costs more than a successful one</h2>
+
+<p>The mechanism is boring, which is why it is expensive. An agent is billed per turn, and every turn re-sends the whole context: the instructions, every tool description, and the entire task history so far. A run that goes well ends early. A run that goes wrong goes <em>long</em> — more turns, each one carrying a bigger context, each retry re-paying for everything that came before it.</p>
+
+<p>And because the agent usually cannot tell it is failing, nothing stops the meter. There is no natural moment where the run says "this is not working" and quits. It patches, re-reads, re-runs, and eventually hands you a confident summary of work that does not pass. The failure is not a single wasted call. It is the longest, fattest run in your log.</p>
+
+<p>A second measurement, from a different team, shows the same shape from the other side. The TokenEconomizer project — a cost controller from researchers at Microsoft Research and UC Berkeley — profiles real agent workloads and reports that on its project page, the 17% of tasks that fail take 32% of the spend. Do the arithmetic and a failing task costs roughly 2.3 times a succeeding one.</p>
+
+<p>So your failure bill has two multipliers: how often runs fail, and how long each failure is allowed to run. Most cost advice attacks the model's price per token. The bigger lever is usually the failures themselves.</p>
+
+<h2>The harness is a per-model decision</h2>
+
+<p>Here is the part that should change a habit. These were the best-value harnesses — lowest cost per <em>passed</em> task — for each model:</p>
+
+<table>
+<tr><th>Model</th><th>Best-value harness</th></tr>
+<tr><td>GLM-5.3</td><td>Codex CLI</td></tr>
+<tr><td>GLM-5.3 Flash</td><td>Pi</td></tr>
+<tr><td>DeepSeek V4.1 Flash</td><td>ZCode</td></tr>
+<tr><td>Muse</td><td>Oh My Pi</td></tr>
+<tr><td>Kimi-K3</td><td>Alma</td></tr>
+</table>
+
+<p>Five models, five different winners. And the swings are not gentle: Codex CLI was the cheapest harness per pass on GLM-5.3 at $0.803 — and ranked 16th of 22 on cost per task with Kimi-K3. The harness you tuned last quarter is not an asset. It is a pairing, and it expires when the model changes.</p>
+
+<p>One more nuance, because it decides how to use this: Runta re-drew the task set 4,000 times to test how stable the winners were. Only Codex CLI on GLM-5.3 was a near-certain winner, holding first place in 99.6% of draws. The other four were the most likely of several close harnesses. A public benchmark gives you a shortlist. Your own tasks give you the verdict.</p>
+
+<p>The metric that makes all of this visible is <strong>cost per passed task</strong> — total spend divided by runs that actually passed. Cost per run hides the failures inside a reassuring average. Cost per pass puts them on the invoice where they belong.</p>
+
+<h2>Measure your own failure bill</h2>
+
+<p>You do not need 27,280 runs. You need one honest week of your own logs:</p>
+
+<p><strong>1. Define "passed" mechanically.</strong> Tests green, build passes, diff accepted — something a script can check, not a feeling. If a human has to squint at it, the agent's confident final answer will fool the metric the same way it fools you.</p>
+
+<p><strong>2. Log four fields per run.</strong> Model, harness, total cost (or tokens), and pass/fail. Most agent tools already record the first three. The fourth is the one everyone skips.</p>
+
+<p><strong>3. Compute two numbers.</strong> Failure share of spend: what fraction of the week's cost went to runs that failed. And cost per passed task, per model–harness pair. The first number tells you whether failure is your problem. The second tells you which pairing is actually cheap.</p>
+
+<p><strong>4. Read the long tail.</strong> Sort failed runs by cost. The top few are usually loops — the same error retried until the budget or the clock gave up. Those are not model problems. They are missing guardrails, and guardrails are cheap.</p>
+
+<h2>Cutting the context: the TokenEconomizer approach</h2>
+
+<p>The other half of the bill is what each turn carries. TokenEconomizer attacks exactly that. It is an open-source plugin (Apache 2.0) that treats the agent as a black box — no changes to the model or the agent's code — and keeps per-repository state learned from your completed sessions. It works with Claude Code, Codex, GitHub Copilot CLI and Pi, and it pulls three levers:</p>
+
+<ul>
+  <li><strong>Micro-skills.</strong> Small facts harvested from earlier sessions in the same repo — the test command that actually works here, the build quirk everyone forgets — injected into later runs, so the agent stops paying to rediscover them.</li>
+  <li><strong>Tool pruning.</strong> Every tool description is re-sent every turn. Tools this repository never uses get dropped from the request instead of riding along forever.</li>
+  <li><strong>Failure-loop intervention.</strong> When turns keep repeating the same failure, a judge model steps in and redirects the agent to a different approach — a direct attack on the long, expensive failure tail above.</li>
+</ul>
+
+<p>In the authors' own benchmark — 277 SWE-Bench tasks across five agent–model settings, with the controller's own calls counted in the bill — mean cost fell 18.4% to 30.9%, and the plugin was cheaper in all 30 repository–setting combinations. Pass rates held or improved in four of five settings. Those are the authors' numbers on a benchmark, not an independent replication and not your workload. But the direction matches the mechanism: what you stop sending, and how early you stop a dying run, is worth more than a small discount on the token price.</p>
+
+<p>Even without the plugin, the three levers are a checklist anyone can steal: persist what the agent learns, prune what it carries, interrupt what it loops on.</p>
+
+<h2>Before your next run: the checklist</h2>
+
+<p><strong>1. Cap the run.</strong> Set a hard budget or turn limit. A failing run should hit a wall you chose, not discover the wall in your wallet.</p>
+
+<p><strong>2. Make "done" checkable.</strong> Give the agent a verification command it must run — the test suite, the build — and treat anything unverified as failed. This is the direct counter to the confident final answer.</p>
+
+<p><strong>3. Re-pick the harness when you switch models.</strong> The best pairing for your old model is a hypothesis, not a default. Shortlist two or three harnesses and run your own tasks through each.</p>
+
+<p><strong>4. Track cost per passed task, not cost per run.</strong> One number, per model–harness pair, reviewed weekly. A cheap harness that fails more is not cheap.</p>
+
+<p><strong>5. Prune the context.</strong> Remove tools the repo never uses, trim instructions that no longer apply, and consider a controller like TokenEconomizer if you run the same repos daily.</p>
+
+<p><strong>6. Save what the agent learns.</strong> A short repo-facts file — working test command, build order, known traps — pays for itself the second time the agent walks into the same wall.</p>
+
+<p><strong>7. Break loops early.</strong> Same error twice means the approach is wrong, not that the third attempt needs more context. Redirect or stop. Every extra turn of a dying run is billed at the full, growing context price.</p>
+
+<p>The model gets the credit when an agent works. The failures send the invoice when it doesn't. Meter them like it.</p>
+
+<h2>Sources</h2>
+
+<p>Runta, <a href="https://runta.com/blog/introducing-frontierharness-eval-v1-1/">"Introducing FrontierHarness Eval v1.1"</a> (November 17, 2026) — 27,280 runs, cost and harness rankings, failure-share figures. TokenEconomizer: paper, "TokenEconomizer: Learning from Experience to Make AI Coding Agents Efficient" (arXiv 2610.22732); code at <a href="https://github.com/microsoft/TokenEconomizer">github.com/microsoft/TokenEconomizer</a>; results summary in <a href="https://www.marktechpost.com/2026/10/30/microsoft-tokeneconomizer-coding-agent-cost-control/">MarkTechPost</a> (October 30, 2026).</p>
+
+<p>— Blob</p>
+
+<p><a href="/blog/">← All blog posts</a></p>
+
+</main>
+
+<footer><div class="wrap">
+  <a href="/privacy/">Privacy</a><a href="/docs/limits/">Limits</a><a href="/changelog/">Changelog</a>
+  <a href="https://x.com/bronzebase" data-event="outbound_github_click" data-event-detail='{"dest":"x"}'>X @bronzebase</a>
+  <span class="spacer">Bronze Base · one file in, one file out</span>
+</div></footer>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
