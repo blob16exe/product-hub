@@ -11,28 +11,31 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://blob.blob16exe.workers.dev/">
 <link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/home.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5a31a7cc01d04b9daa232c9f4b43b3c2"}'></script><!-- End Cloudflare Web Analytics -->
 <link rel="icon" type="image/png" href="/assets/img/cleantake-logo-64.png">
 <meta property="og:image" content="https://blob.blob16exe.workers.dev/assets/img/cleantake-logo-512.png">
 </head>
-<body>
+<body class="home">
 <nav class="nav"><div class="nav-inner">
-  <a class="brand" href="/">Blob</a>
+  <a class="brand brand-pixel" href="/">BLOB.</a>
   <div class="nav-links">
-    <a href="/cleantake/">CleanTake</a>
-    <a href="/agents/">Agents</a>
+    <a href="/">Home</a>
     <a href="/blog/">Blog</a>
-    <a href="/changelog/">Changelog</a>
-    <a class="btn btn-primary" style="padding:.45rem 1rem" href="https://github.com/blob16exe/cleantake/releases/tag/v2.0.0" data-event="download_click" data-event-detail='{"location":"nav"}'>Get CleanTake</a>
+    <a href="/agents/">Agents<span class="badge-new">MỚI</span></a>
+    <a href="/cleantake/">CleanTake</a>
+    <a href="/about/">About</a>
+    <a class="btn btn-youtube" style="padding:.45rem 1rem" href="https://www.youtube.com/@blob16exe">YouTube</a>
   </div>
 </div></nav>
 
 <main class="wrap">
-<section class="hero">
-  <div class="tagline">$ Blob, built in ESP32</div>
-  <h1>Blob</h1>
-  <p class="lead" style="font-size:1.35rem;color:var(--text)"><strong>AI agents, tested honestly.</strong></p>
-  <p class="lead">Blob puts AI agents and tools through real tests — what a coding agent actually costs you, how agents fail in the wild, and how to lock one down before it touches your files or your money. Every claim comes with evidence: benchmarks, incident reports, and our own measurements. Hype never ships here.</p>
+<section class="hero-pixel">
+  <div class="cmd-line">$ Blob, built in ESP32</div>
+  <h1>Blob tests AI tools &amp; agents — for real.</h1>
   <div class="btn-row">
     <a class="btn btn-primary" href="/agents/">Read the agent tests</a>
     <a class="btn btn-ghost" href="/blog/">All blog posts</a>
@@ -40,56 +43,39 @@
 </section>
 
 <section>
-  <h2>Latest</h2>
-  <ul class="post-list">
-    <li>
-      <span class="date">2026-11-18</span><br>
-      <a href="/blog/coding-agent-cost/" style="font-size:1.05rem;font-weight:600">Where Your Coding Agent Burns Its Budget: Choose the Harness per Model, Not per Habit</a>
-      <p class="form-note">In a 27,280-run benchmark, 64.5% of coding-agent spend went to runs that failed or timed out — and the best harness changes with the model.</p>
-    </li>
-    <li>
-      <span class="date">2026-11-15</span><br>
-      <a href="/blog/cursor-fireworks-malware-extension/" style="font-size:1.05rem;font-weight:600">One Leaked Key, 5,000 Developers: How a Backdoored Claude Code Extension Reached Cursor's Marketplace</a>
-      <p class="form-note">One leaked vendor key, a backdoored Claude Code extension live in Cursor's marketplace for ~11 hours, and the checklist every Cursor user needs.</p>
-    </li>
-    <li>
-      <span class="date">2026-11-04</span><br>
-      <a href="/blog/ai-agent-hide-actions-lockdown/" style="font-size:1.05rem;font-weight:600">Your AI Agent Can Hide Its Actions. Here's How to Lock It Down Before It Touches Your Files, Messages, or Money.</a>
-      <p class="form-note">Autonomous agents can act without proper authorization and conceal it — how concealment happens, and a 6-step lockdown checklist.</p>
-    </li>
-  </ul>
-</section>
-
-<section>
-  <h2>AI Agents</h2>
-  <p style="color:var(--muted);font-size:.95rem">The agent corner: costs, failures, security. <a href="/agents/">All agent posts →</a></p>
-  <ul class="post-list">
-    <li>
-      <span class="date">2026-11-18</span><br>
-      <a href="/blog/coding-agent-cost/" style="font-size:1.05rem;font-weight:600">Where Your Coding Agent Burns Its Budget: Choose the Harness per Model, Not per Habit</a>
-      <p class="form-note">In a 27,280-run benchmark, 64.5% of coding-agent spend went to runs that failed or timed out — and the best harness changes with the model.</p>
-    </li>
-    <li>
-      <span class="date">2026-11-15</span><br>
-      <a href="/blog/cursor-fireworks-malware-extension/" style="font-size:1.05rem;font-weight:600">One Leaked Key, 5,000 Developers: How a Backdoored Claude Code Extension Reached Cursor's Marketplace</a>
-      <p class="form-note">One leaked vendor key, a backdoored Claude Code extension live in Cursor's marketplace for ~11 hours, and the checklist every Cursor user needs.</p>
-    </li>
-    <li>
-      <span class="date">2026-11-04</span><br>
-      <a href="/blog/ai-agent-hide-actions-lockdown/" style="font-size:1.05rem;font-weight:600">Your AI Agent Can Hide Its Actions. Here's How to Lock It Down Before It Touches Your Files, Messages, or Money.</a>
-      <p class="form-note">Autonomous agents can act without proper authorization and conceal it — how concealment happens, and a 6-step lockdown checklist.</p>
-    </li>
-    <li>
-      <span class="date">2026-10-24</span><br>
-      <a href="/blog/perplexity-operator-claude-computer-use/" style="font-size:1.05rem;font-weight:600">Perplexity Computer vs OpenAI Operator vs Claude Computer Use: three philosophies, one dead</a>
-      <p class="form-note">Perplexity sells the result, Anthropic sells the capability, OpenAI's Operator is the cautionary tale — three computer-use philosophies compared.</p>
-    </li>
-    <li>
-      <span class="date">2026-10-21</span><br>
-      <a href="/blog/the-50-dollar-hack-sandbox-checklist/" style="font-size:1.05rem;font-weight:600">The $50 Hack: when a hacker rented a tireless AI agent for $50 a company</a>
-      <p class="form-note">A hacker rented a tireless AI agent for ~$50 per company breached — plus a 5-point sandbox checklist for agent builders.</p>
-    </li>
-  </ul>
+  <h2 class="section-pixel-title">KHU AGENTS – TEST MỚI NHẤT<span class="badge-new">MỚI</span></h2>
+  <div class="agent-grid">
+    <a class="agent-card" href="/blog/coding-agent-cost/">
+      <span class="tag">TEST #01</span>
+      <h3>Where Your Coding Agent Burns Its Budget: Choose the Harness per Model, Not per Habit</h3>
+      <p>64.5% of coding-agent spend in a 27,280-run benchmark went to runs that failed or timed out — and the best harness changes with the model.</p>
+      <span class="date">2026-11-18</span>
+    </a>
+    <a class="agent-card" href="/blog/cursor-fireworks-malware-extension/">
+      <span class="tag">CASE #01</span>
+      <h3>One Leaked Key, 5,000 Developers: How a Backdoored Claude Code Extension Reached Cursor's Marketplace</h3>
+      <p>One leaked vendor key put a backdoored Claude Code extension in Cursor's marketplace for ~11 hours. The chain, and the checklist.</p>
+      <span class="date">2026-11-15</span>
+    </a>
+    <a class="agent-card" href="/blog/ai-agent-hide-actions-lockdown/">
+      <span class="tag">SECURITY</span>
+      <h3>Your AI Agent Can Hide Its Actions. Here's How to Lock It Down Before It Touches Your Files, Messages, or Money.</h3>
+      <p>Agents can act without proper authorization and conceal it. How concealment happens, and a 6-step lockdown checklist.</p>
+      <span class="date">2026-11-04</span>
+    </a>
+    <a class="agent-card" href="/blog/perplexity-operator-claude-computer-use/">
+      <span class="tag">TEST #02</span>
+      <h3>Perplexity Computer vs OpenAI Operator vs Claude Computer Use: three philosophies, one dead</h3>
+      <p>Perplexity sells the result, Anthropic sells the capability, Operator is the cautionary tale. Three computer-use philosophies compared.</p>
+      <span class="date">2026-10-24</span>
+    </a>
+    <a class="agent-card" href="/blog/the-50-dollar-hack-sandbox-checklist/">
+      <span class="tag">CASE #02</span>
+      <h3>The $50 Hack: when a hacker rented a tireless AI agent for $50 a company</h3>
+      <p>One hacker breached 100+ companies at ~$50 each with an AI agent — plus a 5-point sandbox checklist for agent builders.</p>
+      <span class="date">2026-10-21</span>
+    </a>
+  </div>
 </section>
 
 <section class="card">

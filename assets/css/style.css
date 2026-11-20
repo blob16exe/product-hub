@@ -55,6 +55,8 @@ pre {
 .btn-primary:hover { background: #e8ab52; text-decoration: none; }
 .btn-ghost { border-color: var(--border); color: var(--text); background: var(--bg-soft); }
 .btn-ghost:hover { border-color: var(--accent); text-decoration: none; }
+.btn-youtube { background: #2ee06f; color: #0a1409 !important; }
+.btn-youtube:hover { background: #5bee8d; text-decoration: none; }
 .btn-row { display: flex; gap: 0.9rem; flex-wrap: wrap; margin: 1.6rem 0; }
 
 /* Hero */

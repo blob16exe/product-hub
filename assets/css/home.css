@@ -1,0 +1,62 @@
+/* Homepage only — pixel style per the approved mockup (2026-11-20).
+   Loaded only by index.html; the rest of the site keeps style.css. */
+body.home { background: #0a1130; }
+body.home .nav { background: rgba(8, 12, 34, .94); border-bottom-color: #263069; }
+body.home footer { border-top-color: #263069; }
+body.home .card { background: #101736; border-color: #263069; }
+
+.brand-pixel {
+  font-family: "Press Start 2P", monospace;
+  font-size: 1rem; color: #fff; letter-spacing: .02em;
+}
+.brand-pixel:hover { text-decoration: none; color: #2ee06f; }
+
+.badge-new {
+  font-family: "Press Start 2P", monospace; font-size: .5rem;
+  color: #2ee06f; border: 1px solid #2ee06f; border-radius: 3px;
+  padding: .2rem .3rem; margin-left: .4rem; vertical-align: middle;
+  white-space: nowrap;
+}
+
+.hero-pixel { padding: 4.5rem 0 2.5rem; }
+.cmd-line {
+  font-family: var(--mono); color: #2ee06f;
+  font-size: 1.05rem; margin-bottom: 1.6rem;
+}
+.hero-pixel h1 {
+  font-family: "Press Start 2P", monospace;
+  font-size: 2.2rem; line-height: 1.6; color: #fff;
+  margin: 0 0 2rem; letter-spacing: 0;
+}
+
+.section-pixel-title {
+  font-family: "Press Start 2P", monospace;
+  font-size: .95rem; line-height: 1.7; color: #4fe3a5;
+  margin: 2.5rem 0 0;
+}
+
+.agent-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem; margin: 1.4rem 0 2rem;
+}
+.agent-card {
+  display: block; background: #101736; border: 1px solid #263069;
+  border-radius: 10px; padding: 1.2rem 1.3rem;
+}
+.agent-card:hover { border-color: #2ee06f; text-decoration: none; }
+.agent-card .tag {
+  font-family: "Press Start 2P", monospace; font-size: .6rem;
+  color: #2ee06f; display: block; margin-bottom: .9rem;
+}
+.agent-card h3 { margin: 0 0 .5rem; font-size: 1.05rem; line-height: 1.45; color: var(--text); }
+.agent-card p { color: var(--muted); font-size: .92rem; margin: 0; }
+.agent-card .date {
+  font-family: var(--mono); font-size: .78rem; color: #6b76a8;
+  display: block; margin-top: .9rem;
+}
+
+@media (max-width: 640px) {
+  .hero-pixel { padding: 2.5rem 0 1.5rem; }
+  .hero-pixel h1 { font-size: 1.35rem; }
+  .section-pixel-title { font-size: .8rem; }
+}
