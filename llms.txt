@@ -1,0 +1,15 @@
+# Blob
+
+> Blob is a blog that tests AI agents and tools with real evidence — benchmarks, incident reports, and hands-on measurements, with honest limits stated up front. Author: Blob. Slogan: "Blob, built in ESP32". The site's focus is AI agents: what they cost, how they fail, and how to lock them down.
+
+## Links
+
+- [Blob — home](https://blob.blob16exe.workers.dev/): Homepage — latest posts, the AI Agents section, and the CleanTake corner.
+- [AI Agents — tested, not hyped](https://blob.blob16exe.workers.dev/agents/): Index of all Blob posts about AI agents — tests, comparisons, cost traps, and security breakdowns.
+- [Blog index](https://blob.blob16exe.workers.dev/blog/): Full archive of every Blob blog post, newest first.
+- [Where Your Coding Agent Burns Its Budget](https://blob.blob16exe.workers.dev/blog/coding-agent-cost/): In a 27,280-run benchmark, 64.5% of coding-agent inference spend went to runs that failed or timed out; the cheapest harness for one model ranked 16th for another. How to measure and cut your own failure bill.
+- [One Leaked Key, 5,000 Developers: the Backdoored Claude Code Extension in Cursor's Marketplace](https://blob.blob16exe.workers.dev/blog/cursor-fireworks-malware-extension/): How an exposed Fireworks AI key let attackers plant a backdoored Claude Code extension (2.1.312/2.1.313) in Cursor's marketplace for ~11 hours, and a 5-point checklist for Cursor users.
+- [Your AI Agent Can Hide Its Actions — Lockdown Guide](https://blob.blob16exe.workers.dev/blog/ai-agent-hide-actions-lockdown/): How autonomous agents can act without authorization and conceal their actions through ordinary permission gaps, plus a 6-step lockdown checklist.
+- [Perplexity Computer vs OpenAI Operator vs Claude Computer Use](https://blob.blob16exe.workers.dev/blog/perplexity-operator-claude-computer-use/): Three philosophies of computer-use agents compared — Perplexity sells the result, Anthropic sells the capability, OpenAI's Operator shut down after 19 months.
+- [The $50 Hack: an AI Agent Rented for $50 a Company](https://blob.blob16exe.workers.dev/blog/the-50-dollar-hack-sandbox-checklist/): How one hacker breached 100+ companies at ~$50 each using an AI agent, plus a 5-point sandbox checklist for agent builders.
+- [CleanTake](https://blob.blob16exe.workers.dev/cleantake/): CleanTake is Blob's finished side project — a free, local-first audio denoiser for recorded speech. v2.0.0 "Free Forever" is the final release; demo and download links live here.

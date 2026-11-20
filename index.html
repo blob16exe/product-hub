@@ -3,12 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CleanTake — Clean recorded speech locally, no upload | Blob</title>
-<meta name="description" content="CleanTake removes fan, AC and hum noise from recorded voice files — 100% on your machine. No upload, no cloud, no subscription. Free local-first audio cleanup.">
-<!-- TODO: replace SITE_BASE (https://blob.blob16exe.workers.dev) with the real domain on deploy -->
+<title>Blob — AI agents, tested honestly | Blob</title>
+<meta name="description" content="Blob tests AI agents and tools with real evidence: what coding agents actually cost, how agents fail, and how to lock them down. Blob, built in ESP32.">
 <link rel="canonical" href="https://blob.blob16exe.workers.dev/">
-<meta property="og:title" content="CleanTake — Clean recorded speech locally, no upload">
-<meta property="og:description" content="Remove fan, AC and hum noise from recorded voice. Runs 100% on your machine — no cloud, no subscription.">
+<meta property="og:title" content="Blob — AI agents, tested honestly">
+<meta property="og:description" content="Honest tests of AI agents & tools: benchmarks, incident breakdowns, and lockdown checklists. Evidence first, hype never.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://blob.blob16exe.workers.dev/">
 <link rel="stylesheet" href="/assets/css/style.css">
@@ -21,83 +20,85 @@
   <a class="brand" href="/">Blob</a>
   <div class="nav-links">
     <a href="/cleantake/">CleanTake</a>
-    <a href="/docs/use/">Docs</a>
+    <a href="/agents/">Agents</a>
     <a href="/blog/">Blog</a>
     <a href="/changelog/">Changelog</a>
-    <a class="btn btn-primary" style="padding:.45rem 1rem" href="https://github.com/blob16exe/cleantake/releases/tag/v1.0.1" data-event="download_click" data-event-detail='{"location":"nav"}'>Get CleanTake</a>
+    <a class="btn btn-primary" style="padding:.45rem 1rem" href="https://github.com/blob16exe/cleantake/releases/tag/v2.0.0" data-event="download_click" data-event-detail='{"location":"nav"}'>Get CleanTake</a>
   </div>
 </div></nav>
 
 <main class="wrap">
 <section class="hero">
-  <img src="/assets/img/cleantake-logo-512.png" alt="CleanTake logo" width="112" height="112" style="border-radius:24px;margin-bottom:1rem">
   <div class="tagline">$ Blob, built in ESP32</div>
-  <h1>CleanTake</h1>
-  <p class="lead" style="font-size:1.35rem;color:var(--text)"><strong>Clean recorded speech locally — no upload.</strong></p>
-  <p class="lead">Drop in a noisy voice recording. Get back clean speech. Everything runs on your machine — your audio never touches a server, and there's no monthly tab.</p>
+  <h1>Blob</h1>
+  <p class="lead" style="font-size:1.35rem;color:var(--text)"><strong>AI agents, tested honestly.</strong></p>
+  <p class="lead">Blob puts AI agents and tools through real tests — what a coding agent actually costs you, how agents fail in the wild, and how to lock one down before it touches your files or your money. Every claim comes with evidence: benchmarks, incident reports, and our own measurements. Hype never ships here.</p>
   <div class="btn-row">
-    <a class="btn btn-primary" href="/cleantake/" data-event="sample_play" data-event-detail='{"location":"hero"}'>Hear the before / after</a>
-    <!-- DEMO BTN PAUSED 2026-10-10: cleantake-demo.streamlit.app trả 403 login-wall (app mất public). Bật lại khi Minh fix xong trong share.streamlit.io:
-    <a class="btn btn-ghost" href="https://cleantake-demo.streamlit.app/" data-event="demo_click" data-event-detail='{"location":"hero"}'>Try the live web demo</a>
-    -->
-    <a class="btn btn-ghost" href="https://github.com/blob16exe/cleantake/releases/tag/v1.0.1" data-event="download_click" data-event-detail='{"location":"hero"}'>Download v1.0.1</a>
+    <a class="btn btn-primary" href="/agents/">Read the agent tests</a>
+    <a class="btn btn-ghost" href="/blog/">All blog posts</a>
   </div>
 </section>
 
 <section>
-  <h2>What it does</h2>
-  <div class="steps">
-    <div class="step"><div class="n">01</div><h3>Drop a file</h3><p>WAV or MP3 of already-recorded speech — a podcast take, a voiceover, a lecture.</p></div>
-    <div class="step"><div class="n">02</div><h3>Local denoise</h3><p>Fan hum, air-conditioner drone and steady room noise are stripped out on your CPU. Nothing is uploaded.</p></div>
-    <div class="step"><div class="n">03</div><h3>Get clean audio</h3><p>Loudness-normalized output lands next to your input. One file in, one file out.</p></div>
-  </div>
-</section>
-
-<section class="card honest">
-  <h3>Honest scope — read before you try</h3>
-  <ul class="tick">
-    <li class="yes"><span class="limit-yes">Removes</span> steady environmental noise: fans, air-conditioners, electrical hum, room tone.</li>
-    <li class="yes"><span class="limit-yes">Works on</span> already-recorded files (podcasts, voiceovers, online lessons).</li>
-    <li class="no"><span class="limit-no">Does NOT</span> separate overlapping speakers — it can't pull one voice out of a crowded café.</li>
-    <li class="no"><span class="limit-no">Is NOT</span> a real-time call tool — it processes files, not live meetings.</li>
-  </ul>
-  <p style="color:var(--muted);font-size:.95rem">We publish our limits on the <a href="/docs/limits/">limits page</a> and keep a public <a href="/changelog/">changelog</a>. If your use case is outside this scope, CleanTake isn't the tool — and we'd rather tell you now.</p>
-</section>
-
-<section>
-  <h2>Why local-first?</h2>
-  <p>Cloud audio tools charge a monthly subscription and require you to upload your voice to someone else's server. CleanTake does the job on your own machine: <strong>private by architecture, free by design.</strong> No account, no telemetry (see our <a href="/privacy/">privacy note</a>).</p>
-  <p style="color:var(--muted);font-size:.95rem">Competitor pricing and features change often — anything we compare is re-checked on the day of publishing, never treated as permanent data.</p>
-</section>
-
-<section>
-  <h2>Status</h2>
-  <p>CleanTake <strong>v1.0.1 is out</strong> (2026-10-02). The core pipeline (ffmpeg → DeepFilterNet → loudness normalization) passed a real-voice test: noise floor −33dB → −59dB on environmental noise, voice preserved. Download the Windows installer or the portable ZIP — free, no account. <a href="/changelog/">See the changelog</a>.</p>
-  <div class="btn-row">
-    <a class="btn btn-primary" href="https://github.com/blob16exe/cleantake/releases/tag/v1.0.1" data-event="download_click" data-event-detail='{"location":"status"}'>Download v1.0.1 — free</a>
-  </div>
-</section>
-<section>
-  <h2>From the blog</h2>
-  <p style="color:var(--muted);font-size:.95rem">Deep-dives with real evidence — benchmarks, honest limits, workflows. <a href="/blog/">All posts →</a></p>
+  <h2>Latest</h2>
   <ul class="post-list">
+    <li>
+      <span class="date">2026-11-18</span><br>
+      <a href="/blog/coding-agent-cost/" style="font-size:1.05rem;font-weight:600">Where Your Coding Agent Burns Its Budget: Choose the Harness per Model, Not per Habit</a>
+      <p class="form-note">In a 27,280-run benchmark, 64.5% of coding-agent spend went to runs that failed or timed out — and the best harness changes with the model.</p>
+    </li>
+    <li>
+      <span class="date">2026-11-15</span><br>
+      <a href="/blog/cursor-fireworks-malware-extension/" style="font-size:1.05rem;font-weight:600">One Leaked Key, 5,000 Developers: How a Backdoored Claude Code Extension Reached Cursor's Marketplace</a>
+      <p class="form-note">One leaked vendor key, a backdoored Claude Code extension live in Cursor's marketplace for ~11 hours, and the checklist every Cursor user needs.</p>
+    </li>
     <li>
       <span class="date">2026-11-04</span><br>
       <a href="/blog/ai-agent-hide-actions-lockdown/" style="font-size:1.05rem;font-weight:600">Your AI Agent Can Hide Its Actions. Here's How to Lock It Down Before It Touches Your Files, Messages, or Money.</a>
+      <p class="form-note">Autonomous agents can act without proper authorization and conceal it — how concealment happens, and a 6-step lockdown checklist.</p>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2>AI Agents</h2>
+  <p style="color:var(--muted);font-size:.95rem">The agent corner: costs, failures, security. <a href="/agents/">All agent posts →</a></p>
+  <ul class="post-list">
+    <li>
+      <span class="date">2026-11-18</span><br>
+      <a href="/blog/coding-agent-cost/" style="font-size:1.05rem;font-weight:600">Where Your Coding Agent Burns Its Budget: Choose the Harness per Model, Not per Habit</a>
+      <p class="form-note">In a 27,280-run benchmark, 64.5% of coding-agent spend went to runs that failed or timed out — and the best harness changes with the model.</p>
     </li>
     <li>
-      <span class="date">2026-10-31</span><br>
-      <a href="/blog/wordcraft-vs-microsoft-word/" style="font-size:1.05rem;font-weight:600">WordCraft vs Microsoft Word: A Free Rust Clone — How It Works, and What to Actually Use It For</a>
+      <span class="date">2026-11-15</span><br>
+      <a href="/blog/cursor-fireworks-malware-extension/" style="font-size:1.05rem;font-weight:600">One Leaked Key, 5,000 Developers: How a Backdoored Claude Code Extension Reached Cursor's Marketplace</a>
+      <p class="form-note">One leaked vendor key, a backdoored Claude Code extension live in Cursor's marketplace for ~11 hours, and the checklist every Cursor user needs.</p>
     </li>
     <li>
-      <span class="date">2026-10-28</span><br>
-      <a href="/blog/self-hosted-models-vs-big-lab-apis/" style="font-size:1.05rem;font-weight:600">Self-Hosted Models vs Big-Lab APIs: Where Does Your Data Actually Go?</a>
+      <span class="date">2026-11-04</span><br>
+      <a href="/blog/ai-agent-hide-actions-lockdown/" style="font-size:1.05rem;font-weight:600">Your AI Agent Can Hide Its Actions. Here's How to Lock It Down Before It Touches Your Files, Messages, or Money.</a>
+      <p class="form-note">Autonomous agents can act without proper authorization and conceal it — how concealment happens, and a 6-step lockdown checklist.</p>
     </li>
     <li>
       <span class="date">2026-10-24</span><br>
       <a href="/blog/perplexity-operator-claude-computer-use/" style="font-size:1.05rem;font-weight:600">Perplexity Computer vs OpenAI Operator vs Claude Computer Use: three philosophies, one dead</a>
+      <p class="form-note">Perplexity sells the result, Anthropic sells the capability, OpenAI's Operator is the cautionary tale — three computer-use philosophies compared.</p>
+    </li>
+    <li>
+      <span class="date">2026-10-21</span><br>
+      <a href="/blog/the-50-dollar-hack-sandbox-checklist/" style="font-size:1.05rem;font-weight:600">The $50 Hack: when a hacker rented a tireless AI agent for $50 a company</a>
+      <p class="form-note">A hacker rented a tireless AI agent for ~$50 per company breached — plus a 5-point sandbox checklist for agent builders.</p>
     </li>
   </ul>
+</section>
+
+<section class="card">
+  <h3 style="margin-top:0">CleanTake</h3>
+  <p>Our finished side project: a free, local-first audio denoiser for recorded speech — no upload, no cloud, no subscription. v2.0.0 "Free Forever" is the final release, with every feature unlocked.</p>
+  <div class="btn-row">
+    <a class="btn btn-ghost" href="/cleantake/">About CleanTake &amp; demo</a>
+    <a class="btn btn-primary" href="https://github.com/blob16exe/cleantake/releases/tag/v2.0.0" data-event="download_click" data-event-detail='{"location":"home-cleantake-corner"}'>Download v2.0.0 — free</a>
+  </div>
 </section>
 </main>
 
