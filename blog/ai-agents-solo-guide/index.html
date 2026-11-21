@@ -11,6 +11,10 @@
 <meta property="og:type" content="article">
 <meta property="og:image" content="https://blob.blob16exe.workers.dev/assets/img/cleantake-logo-512.png">
 <link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5a31a7cc01d04b9daa232c9f4b43b3c2"}'></script><!-- End Cloudflare Web Analytics -->
 <link rel="icon" type="image/png" href="/assets/img/cleantake-logo-64.png">
 <script type="application/ld+json">
@@ -40,11 +44,11 @@
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">
-  <a class="brand" href="/">Blob</a>
+  <a class="brand brand-pixel" href="/">BLOB.</a>
   <div class="nav-links">
     <a href="/">Home</a>
     <a href="/blog/">Blog</a>
-    <a href="/agents/">Agents</a>
+    <a href="/agents/">Agents<span class="badge-new">MỚI</span></a>
     <a href="/cleantake/">CleanTake</a>
     <a href="/about/">About</a>
     <a class="btn btn-youtube" style="padding:.45rem 1rem" href="https://www.youtube.com/@blob16exe">YouTube</a>
@@ -72,61 +76,61 @@
 <h2>The evidence</h2>
 
 <table>
-<tr><th>Vấn đề</th><th>Số đo thật</th><th>Bài chi tiết</th></tr>
-<tr><td>Tiền đốt vào lần chạy lỗi</td><td>64.5% chi phí inference vào run lỗi/timeout; run lỗi tốn gấp ~2.3 lần run thành công</td><td><a href="/blog/coding-agent-cost/">Where Your Coding Agent Burns Its Budget</a></td></tr>
-<tr><td>Chuỗi cung ứng extension</td><td>Extension Claude Code 2.1.312/2.1.313 bị chèn mã độc, nằm trong cache của Cursor ~11 giờ, tới 5.000 dev có thể nhận bản độc</td><td><a href="/blog/cursor-fireworks-malware-extension/">One Leaked Key, 5,000 Developers</a></td></tr>
-<tr><td>Agent giấu hành động</td><td>Apple mở rộng cảnh báo rủi ro AI trong báo cáo 10-K từ 199 từ lên 628 từ, ghi rõ agent có thể hành động không đúng quyền và "che giấu hành động"</td><td><a href="/blog/ai-agent-hide-actions-lockdown/">Your AI Agent Can Hide Its Actions</a></td></tr>
-<tr><td>Chọn sai triết lý computer-use</td><td>Perplexity Computer bán kết quả ($200/tháng gói Max); OpenAI Operator đã chết</td><td><a href="/blog/perplexity-operator-claude-computer-use/">Perplexity vs Operator vs Claude Computer Use</a></td></tr>
-<tr><td>Hack rẻ nhờ agent</td><td>100+ công ty bị breach, mỗi vụ ~$50, mỗi đợt chạy ~23 giờ không nghỉ</td><td><a href="/blog/the-50-dollar-hack-sandbox-checklist/">The $50 Hack</a></td></tr>
+<tr><th>The problem</th><th>The measured number</th><th>The detailed post</th></tr>
+<tr><td>Money burned on failed runs</td><td>64.5% of inference spend went to failed/timed-out runs; a failed run costs ~2.3x a successful one</td><td><a href="/blog/coding-agent-cost/">Where Your Coding Agent Burns Its Budget</a></td></tr>
+<tr><td>Extension supply chain</td><td>A Claude Code 2.1.312/2.1.313 extension was backdoored, sat in Cursor's cache for ~11 hours, and up to 5,000 developers could have received the poisoned build</td><td><a href="/blog/cursor-fireworks-malware-extension/">One Leaked Key, 5,000 Developers</a></td></tr>
+<tr><td>Agents hiding their actions</td><td>Apple expanded the AI risk warning in its 10-K filing from 199 words to 628 words, stating plainly that agents can act without proper authorization and "conceal actions"</td><td><a href="/blog/ai-agent-hide-actions-lockdown/">Your AI Agent Can Hide Its Actions</a></td></tr>
+<tr><td>Picking the wrong computer-use philosophy</td><td>Perplexity Computer sells the result ($200/month for the Max plan); OpenAI Operator is already dead</td><td><a href="/blog/perplexity-operator-claude-computer-use/">Perplexity vs Operator vs Claude Computer Use</a></td></tr>
+<tr><td>Cheap hacks powered by agents</td><td>100+ companies breached, ~$50 per breach, each attack run going ~23 hours without a break</td><td><a href="/blog/the-50-dollar-hack-sandbox-checklist/">The $50 Hack</a></td></tr>
 </table>
 
-<h2>3 loại thuế của người làm một mình</h2>
+<h2>The three taxes of working solo</h2>
 
-<h3>1. Thuế thất bại: tiền của bạn mua lỗi, không mua code</h3>
+<h3>1. The failure tax: your money buys errors, not code</h3>
 
-<p>Runta và Baseten chạy 27,280 lần thử coding agent (22 cấu hình harness, 5 model, 62 task, 83 tỉ token) và đếm tiền đi đâu: 64.5% chi phí rơi vào run không pass — 52.7% lỗi hẳn, 11.8% timeout. Run lỗi còn đắt hơn run đúng: nghiên cứu TokenEconomizer (Microsoft Research + UC Berkeley) đo được 17% task lỗi ngốn 32% chi phí — tức 1 task lỗi tốn gấp ~2.3 lần task đúng. Lý do: agent tính tiền theo lượt, mỗi lượt gửi lại toàn bộ ngữ cảnh; run càng lỗi càng dài, càng dài càng đắt — mà agent thường không tự biết mình đang lỗi nên không dừng.</p>
+<p>Runta and Baseten ran 27,280 coding-agent trials (22 harness configurations, 5 models, 62 tasks, 83 billion tokens) and counted where the money went: 64.5% of spend landed on runs that did not pass — 52.7% outright failures, 11.8% timeouts. Failed runs are also more expensive than successful ones: the TokenEconomizer study (Microsoft Research + UC Berkeley) measured the failing 17% of tasks eating 32% of the cost — meaning 1 failed task costs ~2.3x a successful one. The reason: agents bill per turn, and every turn re-sends the full context; the more a run fails, the longer it gets, and the longer it gets, the more it costs — and the agent usually does not know it is failing, so it never stops.</p>
 
-<p>Bài học rút ra (chi tiết + bảng harness theo từng model trong bài <a href="/blog/coding-agent-cost/">coding-agent-cost</a>): đừng so giá theo token, hãy so <strong>cost per passed task</strong> — tổng chi / số run pass thật. Và đừng giữ harness cũ khi đổi model: Codex CLI rẻ nhất cho GLM-5.3 ($0.803/pass) nhưng xếp hạng 16/22 khi chạy với Kimi-K3.</p>
+<p>The takeaway (details + the per-model harness table are in the <a href="/blog/coding-agent-cost/">coding-agent-cost</a> post): do not compare prices per token — compare <strong>cost per passed task</strong>, total spend divided by the number of runs that actually passed. And do not keep the old harness when you switch models: Codex CLI was the cheapest for GLM-5.3 ($0.803/pass) but ranked 16/22 when run with Kimi-K3.</p>
 
-<h3>2. Thuế bảo mật: agent chạm được gì thì kẻ xấu chạm được nấy</h3>
+<h3>2. The security tax: whatever your agent can touch, an attacker can touch</h3>
 
-<p>Ba bài trong cụm kể cùng một câu chuyện từ ba góc khác nhau:</p>
-
-<ul>
-  <li><strong>Chuỗi cung ứng:</strong> ngày 29/10/2026, bản sao Claude Code 2.1.312/2.1.313 bị sửa chèn mã độc nằm trong cache phục vụ marketplace extension của Cursor ~11 giờ; tới 5.000 developer có thể đã nhận bản độc. Gốc rễ không phải Cursor bị hack — mà là 1 access key cấp cho vendor Fireworks AI bị lộ, kẻ xấu dùng key đó copy trace (bản ghi phiên làm việc của agent) từ bucket lưu trữ chung, trong đó có credential thật chưa che. Cursor tự công bố toàn bộ ngày 13/11.</li>
-  <li><strong>Giấu hành động:</strong> Apple ghi vào báo cáo tài chính 10-K ngày 3/11/2026 rằng agent tự chủ có thể hành động không đúng quyền, sửa dữ liệu — và "che giấu hành động". Một tháng trước đó (2/10/2026), macOS bắt đầu yêu cầu thao tác rõ ràng của người dùng trước khi cấp quyền Full Disk Access. Thông điệp chung: agent chỉ an toàn bằng đúng quyền bạn đã cấp cho nó.</li>
-  <li><strong>Hack giá rẻ:</strong> từ cuối tháng 9/2026, 1 hacker breach hơn 100 công ty (John Deere, SharkNinja, Cummins trong số đó) với chi phí ~$50/vụ — tổng bill token cả chiến dịch ~$5.000, mỗi đợt chạy ~23 giờ. Vũ khí không có gì bí mật: Claude Code gọi model DeepSeek V4.1 Flash giá rẻ, điều phối qua Cairn (nền tảng agent mã nguồn mở), câu lệnh đầu chưa tới 100 ký tự tiếng Trung. Không zero-day triệu đô — chỉ là agent không ngủ, không nghỉ, không xin tăng lương.</li>
-</ul>
-
-<p>Phía phòng thủ cũng đang chạy đua: Microsoft ra Guardian Agents (Project Perception) và Defender tuyên bố nhận diện tới 60 loại agent, mỗi agent có Entra Agent ID riêng.</p>
-
-<h3>3. Thuế chọn sai: mua kết quả hay mua khả năng?</h3>
-
-<p>Ba triết lý computer-use lớn nhất không phải là đối thủ của nhau:</p>
+<p>Three posts in this cluster tell the same story from three different angles:</p>
 
 <ul>
-  <li><strong>Perplexity Computer — bán kết quả:</strong> giao mục tiêu, nó điều phối ~20 model (lõi Claude Opus 4.6) chạy bất đồng bộ hàng giờ, hàng ngày, trong môi trường cloud riêng, 400+ tích hợp. Giá: gói Max $200/tháng; gói Pro $20/tháng chỉ được thử 4.000 credit một lần. Vì agent retry khi connector lỗi nên credit cháy nhanh mà không có ước tính chi phí đáng tin trước khi chạy.</li>
-  <li><strong>Claude Computer Use — bán khả năng:</strong> (chi tiết trong bài so sánh).</li>
-  <li><strong>OpenAI Operator — đã chết:</strong> bài học cảnh báo — triết lý nào không trụ được thị trường thì chết, dù hãng lớn tới đâu.</li>
+  <li><strong>Supply chain:</strong> on 29/10/2026, a tampered copy of Claude Code 2.1.312/2.1.313 sat in the cache serving Cursor's extension marketplace for ~11 hours; up to 5,000 developers may have received the backdoored build. The root cause was not Cursor getting hacked — it was 1 access key issued to the vendor Fireworks AI being leaked; the attacker used that key to copy traces (recordings of agent work sessions) from a shared storage bucket, and those traces contained real, unmasked credentials. Cursor disclosed the whole incident itself on 13/11.</li>
+  <li><strong>Hidden actions:</strong> Apple wrote into its 10-K financial filing on 3/11/2026 that autonomous agents can act without proper authorization, modify data — and "conceal actions". A month earlier (2/10/2026), macOS started requiring an explicit user action before granting Full Disk Access. The shared message: an agent is only as safe as the exact permissions you gave it.</li>
+  <li><strong>Cheap hacks:</strong> starting in late 9/2026, 1 hacker breached more than 100 companies (John Deere, SharkNinja, and Cummins among them) at a cost of ~$50 per breach — the total token bill for the whole campaign was ~$5,000, with each attack run lasting ~23 hours. The weapon was nothing secret: Claude Code driving the cheap DeepSeek V4.1 Flash model, orchestrated through Cairn (an open-source agent platform), with an opening prompt of under 100 Chinese characters. No million-dollar zero-day — just an agent that does not sleep, does not rest, and does not ask for a raise.</li>
 </ul>
 
-<p>Chọn sai triết lý nghĩa là trả tiền cho thứ mình không cần: người muốn xong việc thì mua kết quả; người muốn tự kiểm soát thì mua khả năng — và đừng trả giá cao cho cả hai cùng lúc.</p>
+<p>The defence is racing too: Microsoft launched Guardian Agents (Project Perception), and Defender claims to identify up to 60 types of agents, each with its own Entra Agent ID.</p>
 
-<h2>Cách mình test (và giới hạn)</h2>
+<h3>3. The picking tax: are you buying the result or the capability?</h3>
 
-<p>Bài này là bài tổng hợp, không phải 1 thí nghiệm mới. Mỗi con số đều có gốc truy được trong 5 bài của cụm:</p>
+<p>The three biggest computer-use philosophies are not really competitors:</p>
+
+<ul>
+  <li><strong>Perplexity Computer — sells the result:</strong> hand it a goal and it orchestrates ~20 models (Claude Opus 4.6 at the core) running asynchronously for hours or days in its own cloud environment, with 400+ integrations. Pricing: the Max plan is $200/month; the Pro plan at $20/month only gets a one-time trial of 4,000 credits. Because the agent retries when a connector fails, credits burn fast, with no reliable cost estimate before you run.</li>
+  <li><strong>Claude Computer Use — sells the capability:</strong> (details in the comparison post).</li>
+  <li><strong>OpenAI Operator — already dead:</strong> the cautionary tale — a philosophy that cannot survive the market dies, no matter how big the company behind it is.</li>
+</ul>
+
+<p>Picking the wrong philosophy means paying for something you do not need: if you want the job done, buy the result; if you want control, buy the capability — and do not pay top price for both at once.</p>
+
+<h2>How this was tested (and its limits)</h2>
+
+<p>This is a synthesis post, not a new experiment. Every number traces back to one of the 5 posts in this cluster:</p>
 
 <ol>
-  <li><strong>Số tiền agent đốt:</strong> benchmark FrontierHarness Eval v1.1 của Runta (27,280 run) + paper TokenEconomizer. Lưu ý đã ghi trong bài gốc: chi phí là ước tính theo giá niêm yết, không phải hóa đơn thật; Runta bán hạ tầng sandbox và eval chạy trên chính hạ tầng của họ — công ty tự công bố xung đột này.</li>
-  <li><strong>Vụ Cursor:</strong> theo chính bản công bố của Cursor ngày 13/11/2026.</li>
-  <li><strong>Apple giấu hành động:</strong> theo báo cáo 10-K Apple nộp SEC ngày 3/11/2026 — đây là cảnh báo rủi ro, không phải báo cáo sự cố.</li>
-  <li><strong>So sánh computer-use:</strong> theo thông báo của Perplexity + bảng giá của hãng (tháng 10/2026).</li>
-  <li><strong>Vụ $50 hack:</strong> theo NorForge (đơn vị theo dõi chiến dịch từ bên ngoài).</li>
+  <li><strong>The agent money burn:</strong> Runta's FrontierHarness Eval v1.1 benchmark (27,280 runs) + the TokenEconomizer paper. A caveat already stated in the original post: costs are estimates at list prices, not real invoices; Runta sells sandbox infrastructure and the eval ran on their own infrastructure — a conflict they disclose themselves.</li>
+  <li><strong>The Cursor incident:</strong> from Cursor's own disclosure on 13/11/2026.</li>
+  <li><strong>Apple's hidden-actions warning:</strong> from the 10-K Apple filed with the SEC on 3/11/2026 — this is a risk warning, not an incident report.</li>
+  <li><strong>The computer-use comparison:</strong> from Perplexity's announcements + the company's pricing page (10/2026).</li>
+  <li><strong>The $50 hack:</strong> from NorForge (the outfit tracking the campaign from the outside).</li>
 </ol>
 
-<p>Giới hạn thẳng thắn: các benchmark là của người khác chạy trên task của họ — task của bạn sẽ cho kết quả khác. Bài này cho bạn shortlist và phương pháp đo, không cho đáp án tuyệt đối.</p>
+<p>The honest limit: these benchmarks were run by other people on their tasks — your tasks will produce different results. This post gives you a shortlist and a way to measure, not an absolute answer.</p>
 
-<h2>Hỏi-đáp</h2>
+<h2>Q&amp;A</h2>
 
 <p><strong>Why is my coding agent so expensive?</strong></p>
 <p>Most likely it is not the model price — it is the failure bill. In a 27,280-run benchmark, 64.5% of spend went to runs that failed or timed out, and a failed task costs about 2.3 times a successful one because every retry re-sends the full context.</p>
@@ -143,13 +147,13 @@
 <p><strong>How cheap can an AI-powered attack really be?</strong></p>
 <p>About $50 per company breached in the campaign NorForge tracked: 100+ companies, ~23 hours per attack run, ~$5,000 in total token costs. The defence is not a bigger model — it is a sandbox and locked-down credentials.</p>
 
-<h2>Nguồn + ngày cập nhật</h2>
+<h2>Sources + last updated</h2>
 
 <ul>
-  <li>Các bài trong cụm: <a href="/blog/coding-agent-cost/">coding-agent-cost</a> (18/11/2026) · <a href="/blog/cursor-fireworks-malware-extension/">cursor-fireworks-malware-extension</a> (15/11/2026) · <a href="/blog/ai-agent-hide-actions-lockdown/">ai-agent-hide-actions-lockdown</a> (04/11/2026) · <a href="/blog/perplexity-operator-claude-computer-use/">perplexity-operator-claude-computer-use</a> (24/10/2026) · <a href="/blog/the-50-dollar-hack-sandbox-checklist/">the-50-dollar-hack-sandbox-checklist</a> (21/10/2026)</li>
-  <li>Nguồn gốc của từng số nằm trong mục Nguồn của 5 bài đó (Runta/FrontierHarness, Cursor, Apple 10-K, Perplexity, NorForge, TokenEconomizer).</li>
-  <li>Khu /agents/: <a href="https://blob.blob16exe.workers.dev/agents/">https://blob.blob16exe.workers.dev/agents/</a></li>
-  <li>Ngày đăng: 21/11/2026 · Ngày cập nhật: 21/11/2026</li>
+  <li>The posts in this cluster: <a href="/blog/coding-agent-cost/">coding-agent-cost</a> (18/11/2026) · <a href="/blog/cursor-fireworks-malware-extension/">cursor-fireworks-malware-extension</a> (15/11/2026) · <a href="/blog/ai-agent-hide-actions-lockdown/">ai-agent-hide-actions-lockdown</a> (04/11/2026) · <a href="/blog/perplexity-operator-claude-computer-use/">perplexity-operator-claude-computer-use</a> (24/10/2026) · <a href="/blog/the-50-dollar-hack-sandbox-checklist/">the-50-dollar-hack-sandbox-checklist</a> (21/10/2026)</li>
+  <li>The original source of every number is in the Sources section of those 5 posts (Runta/FrontierHarness, Cursor, Apple 10-K, Perplexity, NorForge, TokenEconomizer).</li>
+  <li>The /agents/ corner: <a href="https://blob.blob16exe.workers.dev/agents/">https://blob.blob16exe.workers.dev/agents/</a></li>
+  <li>Published: 21/11/2026 · Updated: 21/11/2026</li>
 </ul>
 
 <p>— Blob</p>
