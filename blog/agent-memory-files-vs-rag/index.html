@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Long Can Your Agent Remember? Memory Files vs RAG for a Personal Agent | Blob</title>
+<meta name="description" content="A personal agent's durable memory is a few thousand tokens — small enough to load as plain files, and exact when you do. RAG and vector search earn their keep only over the raw archive. Why files win first, how to build each in an afternoon, and the one number that decides between them.">
+<link rel="canonical" href="https://blob.blob16exe.workers.dev/blog/agent-memory-files-vs-rag/">
+<meta property="og:title" content="How Long Can Your Agent Remember? Memory Files vs RAG for a Personal Agent">
+<meta property="og:description" content="A personal agent's durable memory is a few thousand tokens — small enough to load as plain files, and exact when you do. RAG earns its keep only over the raw archive.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://blob.blob16exe.workers.dev/assets/img/cleantake-logo-512.png">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5a31a7cc01d04b9daa232c9f4b43b3c2"}'></script><!-- End Cloudflare Web Analytics -->
+<link rel="icon" type="image/png" href="/assets/img/cleantake-logo-64.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "How Long Can Your Agent Remember? Memory Files vs RAG for a Personal Agent",
+  "description": "A personal agent's durable memory is a few thousand tokens — small enough to load as plain files, and exact when you do. RAG and vector search earn their keep only over the raw archive. Why files win first, how to build each in an afternoon, and the one number that decides between them.",
+  "author": {
+    "@type": "Person",
+    "name": "Blob"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Blob",
+    "url": "https://blob.blob16exe.workers.dev/"
+  },
+  "datePublished": "2026-11-21",
+  "dateModified": "2026-11-21",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blob.blob16exe.workers.dev/blog/agent-memory-files-vs-rag/"
+  },
+  "inLanguage": "en"
+}
+</script>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand brand-pixel" href="/">BLOB.</a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/agents/">Agents</a>
+    <a href="/cleantake/">CleanTake</a>
+    <a href="/about/">About</a>
+    <a class="btn btn-youtube" style="padding:.45rem 1rem" href="https://www.youtube.com/@blob16exe">YouTube</a>
+  </div>
+</div></nav>
+
+<main class="wrap prose">
+
+<p class="breadcrumb"><a href="/">home</a> / <a href="/blog/">blog</a> / agent-memory-files-vs-rag</p>
+
+<h1>How Long Can Your Agent Remember? Memory Files vs RAG for a Personal Agent</h1>
+
+<p class="form-note" style="font-family:var(--mono)">By Blob · November 21, 2026 · 8 min read</p>
+
+<p>Ask your personal agent what you decided last Tuesday and there are two ways it can answer. It can already know, because the fact is sitting in a file it reads every morning. Or it can go looking — searching a database of everything you ever said for the five passages most likely to contain the answer.</p>
+
+<p>The first is a memory file. The second is RAG: retrieval-augmented generation over a vector database. Both are sold as "giving your agent a memory." They are not the same job, and for a personal agent the wrong one costs you more than the right one saves you.</p>
+
+<p>This post compares the two the way you would actually build them — on a laptop, for free — and gives you the one number that decides between them.</p>
+
+<h2>Option A: memory files — the agent keeps a notebook</h2>
+
+<p>A memory file is exactly what it sounds like: plain text the agent reads at the start of a session and writes back to when something worth keeping happens. A curated summary (<code>MEMORY.md</code>) holds the durable facts — who you are, what you decided, what you refuse to do — and append-only daily logs hold everything else. Search is grep, or the agent's own search over the files.</p>
+
+<p>This is how Blob's laptop mode works: the agent runs on the Gemini API, and its memory is a folder of markdown files on the same laptop. Nothing else. No database, no index, no background service.</p>
+
+<p>Why it works:</p>
+
+<ul>
+  <li><strong>Recall is exact, not ranked.</strong> A file is either loaded or it is not. There is no "the right fact ranked sixth and never reached the prompt."</li>
+  <li><strong>You can read it and fix it.</strong> Open the file, correct one wrong line, delete one stale decision. Try doing that inside a vector index.</li>
+  <li><strong>Zero infrastructure.</strong> No server, no embedding model, no re-indexing job, no schema migration. The memory is text in a folder.</li>
+  <li><strong>It survives changing models.</strong> When you switch from one model to another — and you will — the memory moves with you in plain text. An index built for one embedding model does not.</li>
+</ul>
+
+<p>And the size works in its favour. A personal agent's durable memory — facts, decisions, preferences, standing instructions — is hundreds of facts, a few thousand tokens. Gemini 2.5 Flash accepts 1,048,576 input tokens per request, so the whole curated memory loads with roughly 99% of the window to spare, and the free tier (around 1,500 requests a day; Google shows your exact limit in AI Studio, since it is project-specific) covers a personal agent's daily use without a bill.</p>
+
+<p>The weakness is growth. Append-only logs grow forever, and a year of daily notes is too much to load whole. Curation is a chore: someone — you or the agent — has to decide what gets promoted from the log into durable memory and what gets deleted. Load everything and you hit the second problem: a long context is not the same as good recall.</p>
+
+<h2>Option B: RAG and a vector database — the agent goes looking</h2>
+
+<p>Chunk everything into passages, turn each passage into an embedding — a list of numbers that captures its meaning — store the vectors in a database, and at query time retrieve the five most similar passages and paste them into the prompt.</p>
+
+<p>The free, local version of this is Chroma: an open-source embedding database (Apache 2.0) that runs in-process inside your Python app and persists to a local folder with <code>PersistentClient(path="./chroma_db")</code>. It embeds text locally by default with the all-MiniLM-L6-v2 model, so there is no server and no per-query embedding bill.</p>
+
+<p>Why it works:</p>
+
+<ul>
+  <li><strong>It scales past any context window.</strong> Years of chat logs and thousands of notes fit in an index; no context window holds them whole.</li>
+  <li><strong>Search is by meaning, not keywords.</strong> "That thing I said about the robot arm" works even if you never used the word "arm" — the embedding knows the neighbourhood.</li>
+</ul>
+
+<p>Why it fails for personal memory:</p>
+
+<ul>
+  <li><strong>Retrieval misses.</strong> Similarity is not relevance. The right fact can rank sixth and never reach the prompt, while a vaguely similar wrong fact ranks first. The agent then answers confidently from the wrong passage.</li>
+  <li><strong>Chunking breaks structure.</strong> A decision split across two chunks loses its "because". The retrieved half reads like a fact; the missing half was the reason.</li>
+  <li><strong>Every query pays.</strong> An embedding call, a database lookup, and more tokens in the prompt — on every single question, even the ones the file version would have answered from memory already loaded.</li>
+  <li><strong>Debugging is archaeology.</strong> When the agent forgets, you are guessing whether the chunk, the embedding, the ranking, or the prompt failed. Four suspects, no witnesses.</li>
+</ul>
+
+<p>The failure mode that matters most is the quiet one. A file that is loaded is either right or visibly absent — the agent says it does not know. A retrieval that returns the wrong passage looks exactly like a retrieval that returned the right one.</p>
+
+<h2>The number that decides it: how much do you actually need to remember?</h2>
+
+<p>A personal agent's durable memory is small. A few hundred facts. A few thousand tokens. That fits in a context window with almost all of the room to spare, and it costs nothing to load on a free tier.</p>
+
+<p>What is big is the raw archive: every chat, every log line, every half-formed note. That is the part that needs search. But notice what search is for there: finding a needle you half-remember, not answering "what did we decide?" A decision worth remembering should have been promoted to the file already.</p>
+
+<p>Rule of thumb: <strong>if your memory fits in roughly 50,000 tokens — about a small book — files win.</strong> Cheaper, exact, editable. If your archive is past the point where loading it is impossible, or you need semantic search over raw logs you never curated, add RAG — over the archive only, not over the durable facts.</p>
+
+<p>And even with a million-token window, dumping everything in is not free recall. Liu et al.'s "Lost in the Middle" (2023) showed that models use information at the start or end of a long context far better than information buried in the middle — in one test, GPT-3.5-Turbo answered <em>worse</em> with a middle-buried document than with no document at all. A long context lets you load more. It does not make the model read all of it equally well. Curation still matters; the window got bigger, the attention did not.</p>
+
+<h2>Side by side</h2>
+
+<table>
+<tr><th></th><th>Memory files</th><th>RAG / vector DB</th></tr>
+<tr><td>Cost per query</td><td>~0 — text already on disk; tokens only for what you load</td><td>embedding + retrieval + extra prompt tokens, every query</td></tr>
+<tr><td>Latency</td><td>instant (a file read)</td><td>+1 embedding call and a database lookup</td></tr>
+<tr><td>Recall</td><td>exact — loaded or not, no ranking</td><td>probabilistic — top-k can miss</td></tr>
+<tr><td>Fixing a wrong fact</td><td>open the file, fix one line</td><td>find the chunk, re-embed, re-index</td></tr>
+<tr><td>Failure mode</td><td>visibly absent — the agent says it does not know</td><td>silently wrong — wrong passage, confident answer</td></tr>
+<tr><td>Setup</td><td>a folder and a rule</td><td>embedding model + database + chunking + retrieval code</td></tr>
+<tr><td>Scales to</td><td>~50k tokens of curated memory</td><td>millions of tokens of raw archive</td></tr>
+<tr><td>Privacy</td><td>files stay on your disk</td><td>same, if local (Chroma) — but embeddings leave the machine on a hosted API</td></tr>
+</table>
+
+<h2>Build the file version in an afternoon</h2>
+
+<p><strong>1. Two files, two jobs.</strong> <code>MEMORY.md</code> for curated, durable facts. <code>memory/YYYY-MM-DD.md</code> for the append-only daily log. Never mix the two — the log is the raw record, the summary is the memory.</p>
+
+<p><strong>2. A promotion rule.</strong> At the end of each session, the agent moves anything still true tomorrow from the log into <code>MEMORY.md</code> — one line per fact, with a date. No promotion rule, no memory: the log just grows and the summary goes stale.</p>
+
+<p><strong>3. Read before answering.</strong> The agent loads <code>MEMORY.md</code> at session start and searches the logs (grep is enough) when a question points at the past. The durable file is always in context; the archive is searched, never dumped.</p>
+
+<p><strong>4. Cap and compact.</strong> When <code>MEMORY.md</code> passes ~10,000 tokens, split it by topic and compress stale entries. Never let the curated file become a second archive — that is exactly the job the log already has.</p>
+
+<p><strong>5. One test.</strong> Ask "what did we decide about X last week?" If the answer is in <code>MEMORY.md</code>, the system works. If it is only in a log, the promotion rule failed — not the storage.</p>
+
+<h2>Build the RAG version in an afternoon</h2>
+
+<p><strong>1. Install and persist.</strong> <code>pip install chromadb</code>, then <code>chromadb.PersistentClient(path="./chroma_db")</code> — data survives restarts, no server to run.</p>
+
+<p><strong>2. Chunk by note, not by character count.</strong> One daily note — or one section — per document, so a fact and its reason stay in the same chunk.</p>
+
+<p><strong>3. Embed locally.</strong> Chroma's default (all-MiniLM-L6-v2) runs on your machine: no API key, no per-query embedding bill, nothing leaves the laptop.</p>
+
+<p><strong>4. Retrieve top-5, then filter by metadata.</strong> Date and topic filters go on before the passages reach the prompt — similarity alone is a weak filter, and a 2025 note about "the arm" is not a 2026 note about "the arm".</p>
+
+<p><strong>5. Cite sources.</strong> Every retrieved passage carries its note and its date, so a wrong retrieval is checkable instead of invisible.</p>
+
+<h2>The verdict: files first, RAG for the archive</h2>
+
+<p>For a personal agent, start with files. They are exact, editable, free, and they cover everything a person actually needs an agent to remember day to day. Add RAG when — and only when — the raw archive gets big enough that grep stops finding things, and point it at the archive, not at the durable facts. The durable facts live in the file, where you can read them.</p>
+
+<p>That is what Blob does. Its laptop mode runs on the Gemini API with memory files — a curated <code>MEMORY.md</code> plus daily logs — and vector search stays parked until the log archive earns it.</p>
+
+<p>One more thing the file version buys you that no index does: when you switch models, your memory moves with you in plain text. An index built for one embedding model does not.</p>
+
+<h2>Pick in 30 seconds</h2>
+
+<p><strong>Pick files if:</strong> your durable memory is under ~50k tokens; you want to read and edit what the agent remembers; you run on a free tier; you change models.</p>
+
+<p><strong>Pick RAG if:</strong> you have years of uncurated logs to search; you need "find me the thing I half-remember" more than "what did we decide"; you can afford a retrieval layer to maintain.</p>
+
+<p><strong>Do not build both on day one.</strong> Files first. Count how often the agent actually fails to remember something that is in the archive — that count, not the hype, is the case for RAG.</p>
+
+<h2>Sources</h2>
+
+<p>Gemini 2.5 Flash: 1,048,576-token input context, 65,536 max output tokens; free tier via AI Studio, limits shown per project in the console — <a href="https://www.fast.io/resources/gemini-2-5-flash-context-window/">fast.io</a>, <a href="https://www.rapidevelopers.com/ai-api-limits-performance-matrix/gemini-2-5-flash">rapidevelopers.com</a>. Liu et al., "Lost in the Middle: How Language Models Use Long Contexts" (arXiv:2307.03172, TACL 2024) — <a href="https://arxiv.org/html/2307.03172v1">arxiv.org</a>. Chroma: open-source embedding database, Apache 2.0; <code>PersistentClient</code> persists to a local folder; default local embedding all-MiniLM-L6-v2 — <a href="https://www.iaifeed.com/how-to-use-chroma-as-a-local-vector-store">iaifeed.com</a>.</p>
+
+<p>— Blob</p>
+
+<p class="form-note">Part of the full picture: <a href="/blog/ai-agents-solo-guide/">AI Agents for Solo Builders: The Whole Picture</a> — the pillar guide that ties every Blob agent post together.</p>
+
+<p><a href="/blog/">← All blog posts</a></p>
+
+</main>
+
+<footer><div class="wrap">
+  <a href="/privacy/">Privacy</a><a href="/docs/limits/">Limits</a><a href="/changelog/">Changelog</a>
+  <a href="https://x.com/blob16exe" data-event="outbound_github_click" data-event-detail='{"dest":"x"}'>X @blob16exe</a>
+  <span class="spacer">Blob, built in ESP32</span>
+</div></footer>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
