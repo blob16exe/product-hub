@@ -7,7 +7,7 @@
 <meta name="description" content="If you run AI agents alone, you pay three separate taxes: the failure bill (in a 27,280-run benchmark, 64.5% of coding-agent spend went to runs that failed or timed out), the security bill (one leaked vendor key put a backdoored extension in front of up to 5,000 developers; a hacker breached 100+ companies for about $50 each), and the picking tax (the cheapest setup for one model ranked 16th for another, and one of the three big computer-use products is already dead).">
 <link rel="canonical" href="https://blob.blob16exe.workers.dev/blog/ai-agents-solo-guide/">
 <meta property="og:title" content="AI Agents for Solo Builders: The Whole Picture">
-<meta property="og:description" content="The failure bill, the security bill, and the picking tax — the three taxes of running AI agents solo, with the evidence and the fixes from the five agent posts.">
+<meta property="og:description" content="The failure bill, the security bill, and the picking tax — the three taxes of running AI agents solo, with the evidence and the fixes from the six agent posts.">
 <meta property="og:type" content="article">
 <meta property="og:image" content="https://blob.blob16exe.workers.dev/assets/img/cleantake-logo-512.png">
 <link rel="stylesheet" href="/assets/css/style.css">
@@ -118,7 +118,7 @@
 
 <h2>How this was tested (and its limits)</h2>
 
-<p>This is a synthesis post, not a new experiment. Every number traces back to one of the 5 posts in this cluster:</p>
+<p>This is a synthesis post, not a new experiment. Every number traces back to one of the 6 posts in this cluster:</p>
 
 <ol>
   <li><strong>The agent money burn:</strong> Runta's FrontierHarness Eval v1.1 benchmark (27,280 runs) + the TokenEconomizer paper. A caveat already stated in the original post: costs are estimates at list prices, not real invoices; Runta sells sandbox infrastructure and the eval ran on their own infrastructure — a conflict they disclose themselves.</li>
@@ -126,6 +126,7 @@
   <li><strong>Apple's hidden-actions warning:</strong> from the 10-K Apple filed with the SEC on 3/11/2026 — this is a risk warning, not an incident report.</li>
   <li><strong>The computer-use comparison:</strong> from Perplexity's announcements + the company's pricing page (10/2026).</li>
   <li><strong>The $50 hack:</strong> from NorForge (the outfit tracking the campaign from the outside).</li>
+  <li><strong>The memory question:</strong> Gemini 2.5 Flash's 1,048,576-token context window + Liu et al.'s "Lost in the Middle" (2023) + Chroma as the local vector store.</li>
 </ol>
 
 <p>The honest limit: these benchmarks were run by other people on their tasks — your tasks will produce different results. This post gives you a shortlist and a way to measure, not an absolute answer.</p>
@@ -150,8 +151,8 @@
 <h2>Sources + last updated</h2>
 
 <ul>
-  <li>The posts in this cluster: <a href="/blog/coding-agent-cost/">coding-agent-cost</a> (18/11/2026) · <a href="/blog/cursor-fireworks-malware-extension/">cursor-fireworks-malware-extension</a> (15/11/2026) · <a href="/blog/ai-agent-hide-actions-lockdown/">ai-agent-hide-actions-lockdown</a> (04/11/2026) · <a href="/blog/perplexity-operator-claude-computer-use/">perplexity-operator-claude-computer-use</a> (24/10/2026) · <a href="/blog/the-50-dollar-hack-sandbox-checklist/">the-50-dollar-hack-sandbox-checklist</a> (21/10/2026)</li>
-  <li>The original source of every number is in the Sources section of those 5 posts (Runta/FrontierHarness, Cursor, Apple 10-K, Perplexity, NorForge, TokenEconomizer).</li>
+  <li>The posts in this cluster: <a href="/blog/coding-agent-cost/">coding-agent-cost</a> (18/11/2026) · <a href="/blog/cursor-fireworks-malware-extension/">cursor-fireworks-malware-extension</a> (15/11/2026) · <a href="/blog/ai-agent-hide-actions-lockdown/">ai-agent-hide-actions-lockdown</a> (04/11/2026) · <a href="/blog/perplexity-operator-claude-computer-use/">perplexity-operator-claude-computer-use</a> (24/10/2026) · <a href="/blog/the-50-dollar-hack-sandbox-checklist/">the-50-dollar-hack-sandbox-checklist</a> (21/10/2026) · <a href="/blog/agent-memory-files-vs-rag/">agent-memory-files-vs-rag</a> (21/11/2026)</li>
+  <li>The original source of every number is in the Sources section of those 6 posts (Runta/FrontierHarness, Cursor, Apple 10-K, Perplexity, NorForge, TokenEconomizer, Gemini/Liu et al./Chroma).</li>
   <li>The /agents/ corner: <a href="https://blob.blob16exe.workers.dev/agents/">https://blob.blob16exe.workers.dev/agents/</a></li>
   <li>Published: 21/11/2026 · Updated: 21/11/2026</li>
 </ul>
