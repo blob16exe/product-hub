@@ -1,7 +1,8 @@
 /* SnipGIF — 100% client-side animated background removal.
  *
  * Pipeline: extract frames (GIF via gifuct-js, animated WebP via the
- * ImageDecoder API, MP4 via <video> seek-stepping) -> run an ONNX segmentation
+ * ImageDecoder API with a libwebp-WASM fallback, MP4 via <video>
+ * seek-stepping) -> run an ONNX segmentation
  * model per frame with onnxruntime-web (WASM) -> composite the predicted mask
  * as the alpha channel -> preview + export (PNG sequence .zip, alpha WebM).
  *
@@ -163,30 +164,105 @@ async function extractGif(buf) {
 }
 
 async function extractWebp(file) {
-  if (!("ImageDecoder" in window)) {
-    throw new Error("This browser cannot decode animated WebP (no ImageDecoder API). Try a recent Chrome/Edge, or convert the file to GIF or MP4 first.");
-  }
   var buf = await file.arrayBuffer();
-  var decoder = new ImageDecoder({ data: buf, type: "image/webp" });
-  await decoder.completed;
-  var track = decoder.tracks.selectedTrack;
-  if (!track) throw new Error("No image track found in this WebP file.");
-  var count = track.frameCount;
-  var frames = [];
-  for (var i = 0; i < count; i++) {
-    var result = await decoder.decode({ frameIndex: i });
-    var img = result.image;
-    var canvas = document.createElement("canvas");
-    canvas.width = img.displayWidth; canvas.height = img.displayHeight;
-    var ctx = canvas.getContext("2d", { willReadFrequently: true });
-    ctx.drawImage(img, 0, 0);
-    var delayMs = img.duration ? Math.max(20, Math.round(img.duration / 1000)) : 100;
-    frames.push({ imageData: ctx.getImageData(0, 0, canvas.width, canvas.height), delayMs: delayMs });
-    img.close();
+  var primaryError = null;
+  if ("ImageDecoder" in window) {
+    try {
+      var frames = await extractWebpViaImageDecoder(buf);
+      if (frames.length) return frames;
+      primaryError = new Error("ImageDecoder returned no frames.");
+    } catch (e) { primaryError = e; }
+  } else {
+    primaryError = new Error("This browser has no ImageDecoder API.");
   }
-  decoder.close();
-  if (!frames.length) throw new Error("No frames found in this WebP.");
+  // Fallback: libwebp itself, compiled to WASM (libwebp-wasm, pinned below).
+  // It demuxes and composites animated WebP on its own — no ImageDecoder
+  // involved. This covers browsers without WebCodecs image decoding
+  // (Firefox/Safari) AND files that strict demuxers refuse to expose a
+  // track for while libwebp accepts them (the short36 test file is one:
+  // Chrome's ImageDecoder reports no image track for it and ffmpeg rejects
+  // it outright, yet libwebp/PIL decode all 37 frames — verified bit-exact
+  // against PIL in Node, see build log 2026-11-22).
+  try {
+    return await extractWebpViaLibwebp(buf);
+  } catch (fallbackError) {
+    throw new Error("Could not decode this WebP file. ImageDecoder said: " +
+      (primaryError && primaryError.message) + " The built-in libwebp decoder said: " +
+      ((fallbackError && fallbackError.message) || fallbackError));
+  }
+}
+
+var LIBWEBP_WASM_URL = "https://cdn.jsdelivr.net/npm/libwebp-wasm@0.1.6/+esm";
+
+async function extractWebpViaLibwebp(buf) {
+  var mod = await import(LIBWEBP_WASM_URL);
+  var decoded = await mod.decode(new Uint8Array(buf));
+  if (!decoded || !decoded.frameList || !decoded.frameList.length) {
+    throw new Error("No frames found in this WebP.");
+  }
+  var frames = [];
+  var prevTs = 0;
+  for (var i = 0; i < decoded.frameList.length; i++) {
+    var item = decoded.frameList[i];
+    // libwebp reports each frame's cumulative END timestamp (ms since the
+    // animation start); a frame's duration is the delta from the previous
+    // frame's timestamp. Verified against the ANMF headers of the test
+    // file: deltas are exactly its 66/67 ms frame durations.
+    var delayMs = Math.max(20, Math.round(item.timestamp - prevTs) || 100);
+    prevTs = item.timestamp;
+    frames.push({
+      imageData: new ImageData(item.data, decoded.width, decoded.height),
+      delayMs: delayMs
+    });
+  }
   return frames;
+}
+
+async function extractWebpViaImageDecoder(buf) {
+  var decoder = new ImageDecoder({ data: buf, type: "image/webp", preferAnimation: true });
+  try {
+    await decoder.completed;
+    if (decoder.tracks && decoder.tracks.ready) {
+      try { await decoder.tracks.ready; } catch (e) { /* track list stays best-effort */ }
+    }
+    var track = decoder.tracks.selectedTrack;
+    if (!track) {
+      // Chrome does not always pre-select a track for animated WebP, even
+      // after `completed` resolves. Scan the track list for the first
+      // usable image track and select it explicitly before giving up.
+      for (var i = 0; i < decoder.tracks.length; i++) {
+        var candidate = decoder.tracks[i];
+        if (candidate && candidate.frameCount > 0) {
+          candidate.selected = true;
+          track = candidate;
+          break;
+        }
+      }
+      if (!track && decoder.tracks.length) {
+        decoder.tracks[0].selected = true;
+        track = decoder.tracks[0];
+      }
+    }
+    if (!track) throw new Error("No image track found in this WebP file.");
+    var count = track.frameCount;
+    if (!count) throw new Error("The image track in this WebP reports no frames.");
+    var frames = [];
+    for (var i = 0; i < count; i++) {
+      var result = await decoder.decode({ frameIndex: i });
+      var img = result.image;
+      var canvas = document.createElement("canvas");
+      canvas.width = img.displayWidth; canvas.height = img.displayHeight;
+      var ctx = canvas.getContext("2d", { willReadFrequently: true });
+      ctx.drawImage(img, 0, 0);
+      var delayMs = img.duration ? Math.max(20, Math.round(img.duration / 1000)) : 100;
+      frames.push({ imageData: ctx.getImageData(0, 0, canvas.width, canvas.height), delayMs: delayMs });
+      img.close();
+    }
+    if (!frames.length) throw new Error("No frames found in this WebP.");
+    return frames;
+  } finally {
+    decoder.close();
+  }
 }
 
 function extractMp4(file) {
@@ -198,7 +274,12 @@ function extractMp4(file) {
     var done = false;
     function fail(msg) { if (!done) { done = true; URL.revokeObjectURL(url); reject(new Error(msg)); } }
     video.addEventListener("error", function () { fail("Could not read this MP4 file."); });
+    // A damaged or half-downloaded file can leave the video element silent
+    // forever — neither metadata nor an error event. Do not hang the UI.
+    var metaTimer = setTimeout(function () { fail("Timed out waiting for this MP4's metadata — the file may be damaged."); }, 15000);
     video.addEventListener("loadedmetadata", async function () {
+      clearTimeout(metaTimer);
+      if (done) return;
       try {
         var duration = video.duration;
         if (!isFinite(duration) || duration <= 0) { fail("Could not read this MP4's duration."); return; }
@@ -229,6 +310,10 @@ function extractMp4(file) {
 }
 function seekTo(video, t) {
   return new Promise(function (resolve, reject) {
+    // Already parked on the target time with data decoded (notably t=0 on
+    // the first frame): some browsers fire no 'seeked' event for a no-op
+    // seek, which would otherwise stall until the timeout below.
+    if (video.readyState >= 2 && Math.abs(video.currentTime - t) < 0.002) { resolve(); return; }
     var timer = setTimeout(function () { reject(new Error("Timed out while reading the MP4.")); }, 8000);
     function onSeeked() {
       clearTimeout(timer);

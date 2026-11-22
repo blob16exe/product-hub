@@ -1,6 +1,9 @@
 /* Homepage only — pixel style per the approved mockup (2026-11-20).
    Loaded only by index.html; the rest of the site keeps style.css. */
 body.home { background: #0a1130; }
+/* Anchor jumps (e.g. /#projects) must clear the sticky nav — it is ~60px
+   tall on desktop and wraps to ~114px on narrow screens. */
+body.home section { scroll-margin-top: 120px; }
 body.home .nav { background: rgba(8, 12, 34, .94); border-bottom-color: #263069; }
 body.home footer { border-top-color: #263069; }
 body.home .card { background: #101736; border-color: #263069; }
