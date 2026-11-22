@@ -104,5 +104,22 @@
     });
   });
 
+
+  // Projects dropdown in the shared nav: click to toggle (identical on desktop
+  // and mobile — no separate mobile menu), close on outside click or Escape.
+  document.querySelectorAll(".nav-dropdown").forEach(function (dd) {
+    var btn = dd.querySelector(".nav-drop-btn");
+    var panel = dd.querySelector(".nav-drop-panel");
+    if (!btn || !panel) return;
+    function close() { panel.hidden = true; btn.setAttribute("aria-expanded", "false"); }
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      if (panel.hidden) { panel.hidden = false; btn.setAttribute("aria-expanded", "true"); }
+      else close();
+    });
+    panel.addEventListener("click", function (e) { e.stopPropagation(); });
+    document.addEventListener("click", function () { if (!panel.hidden) close(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
+  });
   window.__cleantakeTrack = track; // exposed for manual QA in devtools
 })();

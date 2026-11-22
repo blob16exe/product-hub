@@ -68,3 +68,31 @@ footer { border-top-color: #263069; }
   .hero h1 { font-size: 1.3rem; }
   h2 { font-size: .8rem; }
 }
+
+/* Projects dropdown in the shared nav — click to toggle, identical on desktop
+   and mobile (Minh's call, 2026-11-22: no separate mobile menu). */
+.nav-dropdown { position: relative; }
+.nav-drop-btn {
+  background: none; border: 0; cursor: pointer; padding: 0;
+  color: var(--muted); font-size: 0.95rem; font-family: inherit;
+  display: inline-flex; align-items: center; gap: .3rem;
+}
+.nav-drop-btn:hover, .nav-drop-btn[aria-expanded="true"] { color: var(--text); }
+.nav-arrow { font-size: .7rem; color: #2ee06f; display: inline-block; transition: transform .15s; }
+.nav-drop-btn[aria-expanded="true"] .nav-arrow { transform: rotate(180deg); }
+.nav-drop-panel {
+  position: absolute; top: calc(100% + .6rem); right: 0; min-width: 215px;
+  background: #101736; border: 1px solid #263069; border-radius: 8px;
+  padding: .4rem; z-index: 60; box-shadow: 0 12px 32px rgba(0,0,0,.45);
+}
+.nav-drop-panel[hidden] { display: none; }
+.nav-drop-panel a {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .55rem .7rem; border-radius: 6px; color: var(--text); font-size: .95rem;
+}
+.nav-drop-panel a:hover { background: #1a2450; text-decoration: none; }
+.drop-tag {
+  font-family: "Press Start 2P", monospace; font-size: .5rem;
+  border: 1px solid #2ee06f; color: #2ee06f; border-radius: 3px; padding: .2rem .3rem;
+}
+.drop-tag.tag-free { border-color: #6b76a8; color: #9aa3b5; }

@@ -26,7 +26,13 @@
     <a href="/">Home</a>
     <a href="/blog/">Blog</a>
     <a href="/agents/">Agents</a>
-    <a href="/cleantake/">CleanTake</a>
+    <div class="nav-dropdown">
+      <button type="button" class="nav-drop-btn" aria-haspopup="true" aria-expanded="false">Projects <span class="nav-arrow" aria-hidden="true">&#9662;</span></button>
+      <div class="nav-drop-panel" hidden>
+        <a href="/snipgif/">SnipGIF <span class="drop-tag tag-main">MAIN</span></a>
+        <a href="/cleantake/">CleanTake <span class="drop-tag tag-free">FREE</span></a>
+      </div>
+    </div>
     <a href="/about/">About</a>
     <a class="btn btn-youtube" style="padding:.45rem 1rem" href="https://www.youtube.com/@blob16exe">YouTube</a>
   </div>
@@ -77,12 +83,70 @@
   </div>
 </section>
 
-<section class="card">
-  <h3 style="margin-top:0">CleanTake</h3>
-  <p>Our finished side project: a free, local-first audio denoiser for recorded speech — no upload, no cloud, no subscription. v2.0.0 "Free Forever" is the final release, with every feature unlocked.</p>
-  <div class="btn-row">
-    <a class="btn btn-ghost" href="/cleantake/">About CleanTake &amp; demo</a>
-    <a class="btn btn-primary" href="https://github.com/blob16exe/cleantake/releases/tag/v2.0.0" data-event="download_click" data-event-detail='{"location":"home-cleantake-corner"}'>Download v2.0.0 — free</a>
+<section>
+  <div class="projects-head">
+    <h2 class="section-pixel-title" style="margin:0">PROJECTS</h2>
+    <span class="projects-chip">2 FREE TOOLS</span>
+  </div>
+
+  <p class="project-label">MAIN PROJECT</p>
+  <div class="card project-card">
+    <div class="project-main">
+      <h3 class="project-name">SNIPGIF</h3>
+      <p class="project-tagline">GIF BACKGROUND REMOVER FOR CREATORS</p>
+      <p>Drop a GIF — get the character back with the background cut clean, ready to drop into any video, in any editor.</p>
+      <ul class="project-feats">
+        <li>100% in your browser — files never leave your device</li>
+        <li>No watermark · No sign-up · Free</li>
+        <li>PNG sequence + WebM alpha export, batch-ready</li>
+      </ul>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="/snipgif/">OPEN SNIPGIF</a>
+        <a class="btn btn-ghost" href="/snipgif/#story">READ THE STORY</a>
+      </div>
+    </div>
+    <div class="project-side">
+      <div class="ba-pair">
+        <figure>
+          <img src="/assets/img/snipgif-before.png" alt="Original animated frame, background still on" loading="lazy">
+          <figcaption>BEFORE</figcaption>
+        </figure>
+        <span class="ba-arrow" aria-hidden="true">&rarr;</span>
+        <figure>
+          <img src="/assets/img/snipgif-after.png" alt="Same character with the background cut clean, shown on black" loading="lazy">
+          <figcaption>AFTER</figcaption>
+        </figure>
+      </div>
+      <p class="project-status">STATUS: LIVE</p>
+      <p class="project-note">The tool behind this channel's Shorts. Every cutout character in our videos comes from this page.</p>
+    </div>
+  </div>
+
+  <p class="project-label project-label-done">FINISHED PROJECT</p>
+  <div class="card project-card">
+    <div class="project-main">
+      <h3 class="project-name">CLEANTAKE</h3>
+      <p class="project-tagline">AI AUDIO CLEANUP FOR VOICE RECORDINGS</p>
+      <p>Drop a noisy voice recording — get clean audio back. The first tool from Blob, now finished and free forever.</p>
+      <ul class="project-feats">
+        <li>Cuts background noise, keeps the voice</li>
+        <li>Free forever — the finished v2.0.0</li>
+      </ul>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="https://github.com/blob16exe/cleantake/releases/tag/v2.0.0" data-event="download_click" data-event-detail='{"location":"home-projects-cleantake"}'>GET CLEANTAKE</a>
+        <a class="btn btn-ghost" href="/cleantake/">READ THE STORY</a>
+      </div>
+    </div>
+    <div class="project-side">
+      <div class="wave-box">
+        <p class="wave-label wave-in-label">IN: NOISY ROOM</p>
+        <div class="wave wave-in-bars" aria-hidden="true"><span style="height:31%"></span><span style="height:43%"></span><span style="height:88%"></span><span style="height:72%"></span><span style="height:100%"></span><span style="height:94%"></span><span style="height:71%"></span><span style="height:80%"></span><span style="height:37%"></span><span style="height:37%"></span><span style="height:39%"></span><span style="height:59%"></span><span style="height:90%"></span><span style="height:100%"></span><span style="height:81%"></span><span style="height:79%"></span><span style="height:86%"></span><span style="height:84%"></span><span style="height:45%"></span><span style="height:57%"></span><span style="height:100%"></span><span style="height:71%"></span><span style="height:100%"></span><span style="height:90%"></span><span style="height:74%"></span><span style="height:59%"></span><span style="height:50%"></span><span style="height:58%"></span><span style="height:46%"></span><span style="height:85%"></span><span style="height:100%"></span><span style="height:95%"></span><span style="height:100%"></span><span style="height:70%"></span><span style="height:55%"></span><span style="height:44%"></span><span style="height:51%"></span><span style="height:59%"></span><span style="height:72%"></span><span style="height:99%"></span><span style="height:99%"></span><span style="height:90%"></span><span style="height:100%"></span><span style="height:88%"></span><span style="height:45%"></span><span style="height:46%"></span><span style="height:65%"></span><span style="height:100%"></span><span style="height:100%"></span><span style="height:90%"></span><span style="height:100%"></span><span style="height:72%"></span><span style="height:73%"></span><span style="height:72%"></span><span style="height:25%"></span><span style="height:64%"></span><span style="height:58%"></span><span style="height:100%"></span><span style="height:100%"></span><span style="height:100%"></span><span style="height:100%"></span><span style="height:67%"></span></div>
+        <p class="wave-label wave-out-label">OUT: CLEAN VOICE</p>
+        <div class="wave wave-out-bars" aria-hidden="true"><span style="height:20%"></span><span style="height:45%"></span><span style="height:66%"></span><span style="height:82%"></span><span style="height:91%"></span><span style="height:91%"></span><span style="height:82%"></span><span style="height:66%"></span><span style="height:44%"></span><span style="height:21%"></span><span style="height:45%"></span><span style="height:67%"></span><span style="height:83%"></span><span style="height:91%"></span><span style="height:91%"></span><span style="height:82%"></span><span style="height:65%"></span><span style="height:44%"></span><span style="height:21%"></span><span style="height:46%"></span><span style="height:67%"></span><span style="height:83%"></span><span style="height:91%"></span><span style="height:91%"></span><span style="height:82%"></span><span style="height:65%"></span><span style="height:43%"></span><span style="height:22%"></span><span style="height:46%"></span><span style="height:68%"></span><span style="height:83%"></span><span style="height:91%"></span><span style="height:91%"></span><span style="height:81%"></span><span style="height:65%"></span><span style="height:42%"></span><span style="height:22%"></span><span style="height:47%"></span><span style="height:68%"></span><span style="height:84%"></span><span style="height:91%"></span><span style="height:90%"></span><span style="height:81%"></span><span style="height:64%"></span><span style="height:42%"></span><span style="height:23%"></span><span style="height:48%"></span><span style="height:69%"></span><span style="height:84%"></span><span style="height:91%"></span><span style="height:90%"></span><span style="height:81%"></span><span style="height:64%"></span><span style="height:41%"></span><span style="height:24%"></span><span style="height:48%"></span><span style="height:69%"></span><span style="height:84%"></span><span style="height:91%"></span><span style="height:90%"></span><span style="height:80%"></span><span style="height:63%"></span></div>
+      </div>
+      <p class="project-status">STATUS: FREE FOREVER</p>
+      <p class="project-note">Noise floor: &minus;33 dB &rarr; &minus;59 dB.</p>
+    </div>
   </div>
 </section>
 </main>

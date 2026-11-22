@@ -60,3 +60,74 @@ body.home .card { background: #101736; border-color: #263069; }
   .hero-pixel h1 { font-size: 1.35rem; }
   .section-pixel-title { font-size: .8rem; }
 }
+
+/* Projects dropdown in the shared nav — same rules as site.css (kept in sync). */
+.nav-dropdown { position: relative; }
+.nav-drop-btn {
+  background: none; border: 0; cursor: pointer; padding: 0;
+  color: var(--muted); font-size: 0.95rem; font-family: inherit;
+  display: inline-flex; align-items: center; gap: .3rem;
+}
+.nav-drop-btn:hover, .nav-drop-btn[aria-expanded="true"] { color: var(--text); }
+.nav-arrow { font-size: .7rem; color: #2ee06f; display: inline-block; transition: transform .15s; }
+.nav-drop-btn[aria-expanded="true"] .nav-arrow { transform: rotate(180deg); }
+.nav-drop-panel {
+  position: absolute; top: calc(100% + .6rem); right: 0; min-width: 215px;
+  background: #101736; border: 1px solid #263069; border-radius: 8px;
+  padding: .4rem; z-index: 60; box-shadow: 0 12px 32px rgba(0,0,0,.45);
+}
+.nav-drop-panel[hidden] { display: none; }
+.nav-drop-panel a {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .55rem .7rem; border-radius: 6px; color: var(--text); font-size: .95rem;
+}
+.nav-drop-panel a:hover { background: #1a2450; text-decoration: none; }
+.drop-tag {
+  font-family: "Press Start 2P", monospace; font-size: .5rem;
+  border: 1px solid #2ee06f; color: #2ee06f; border-radius: 3px; padding: .2rem .3rem;
+}
+.drop-tag.tag-free { border-color: #6b76a8; color: #9aa3b5; }
+
+/* Homepage PROJECTS section — per approved mockup 2026-11-22. */
+.projects-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 2.5rem; }
+.projects-chip {
+  font-family: "Press Start 2P", monospace; font-size: .55rem;
+  color: #2ee06f; border: 1px solid #2ee06f; border-radius: 3px;
+  padding: .35rem .5rem; white-space: nowrap;
+}
+.project-label {
+  font-family: var(--mono); color: #2ee06f; font-size: .85rem;
+  letter-spacing: .14em; margin: 1.9rem 0 .6rem;
+}
+.project-label-done { color: #6b76a8; }
+.project-card {
+  display: grid; grid-template-columns: 1.15fr .85fr; gap: 1.6rem;
+  margin: 0 0 .5rem; align-items: start;
+}
+.project-name {
+  font-family: "Press Start 2P", monospace; font-size: 1.45rem;
+  color: #fff; margin: .1rem 0 .9rem; line-height: 1.5;
+}
+.project-tagline { font-family: var(--mono); color: #4fe3a5; margin: 0 0 .8rem; }
+.project-feats { list-style: none; padding: 0; margin: 1rem 0 .2rem; }
+.project-feats li { padding-left: 1.4rem; position: relative; margin: .45rem 0; color: #2ee06f; font-size: .95rem; }
+.project-feats li::before { content: ">"; position: absolute; left: 0; font-weight: 700; }
+.ba-pair { display: flex; align-items: center; gap: .55rem; }
+.ba-pair figure { margin: 0; flex: 1; }
+.ba-pair img { width: 100%; display: block; border: 1px solid #263069; border-radius: 6px; }
+.ba-pair figcaption { font-family: var(--mono); font-size: .72rem; color: var(--muted); margin-top: .35rem; letter-spacing: .1em; }
+.ba-arrow { color: #2ee06f; font-weight: 700; }
+.project-status { font-family: var(--mono); color: #2ee06f; margin: 1rem 0 .3rem; }
+.project-note { color: var(--muted); font-size: .92rem; margin: 0; }
+.wave-box { border: 1px solid #263069; border-radius: 6px; padding: .8rem .9rem; background: #0d1433; }
+.wave-label { font-family: var(--mono); font-size: .75rem; margin: .15rem 0 .4rem; letter-spacing: .08em; }
+.wave-in-label { color: #ff8f86; }
+.wave-out-label { color: #2ee06f; }
+.wave { display: flex; align-items: center; gap: 2px; height: 42px; margin-bottom: .7rem; }
+.wave span { flex: 1; border-radius: 1px; min-height: 3px; }
+.wave-in-bars span { background: #d96a5f; }
+.wave-out-bars span { background: #2ee06f; }
+@media (max-width: 760px) {
+  .project-card { grid-template-columns: 1fr; }
+  .project-name { font-size: 1.15rem; }
+}
