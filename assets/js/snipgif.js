@@ -11,11 +11,15 @@
  *   - u2net: 320x320 input, mean [.485,.456,.406], std [.229,.224,.225]
  *   - isnet: 1024x1024 input, mean [.5,.5,.5], std [1,1,1]
  *   both: pixels scaled by the frame's own max, mask min-max normalized.
- * Model files are fetched at runtime from a Hugging Face mirror that serves
- * `Access-Control-Allow-Origin: *` and is byte-identical to the official
- * rembg GitHub release (verified 2026-11-22: sizes 175,997,641 / 178,648,008
- * bytes and MD5s 60024c5c889badc19c04ad937298a77b / fc16ebd8b0c10d971d3513d564d01e29
- * match rembg's published checksums). A second mirror is kept as fallback.
+ * Model files are self-hosted on this origin: each model is split into
+ * ~20 MB chunks under /assets/models/ (Cloudflare Pages caps single files
+ * at 25 MB), fetched part by part at runtime and reassembled in the
+ * browser. The files are byte-identical to the official rembg GitHub
+ * release (verified 2026-11-22: sizes 175,997,641 / 178,648,008 bytes and
+ * MD5s 60024c5c889badc19c04ad937298a77b / fc16ebd8b0c10d971d3513d564d01e29
+ * match rembg's published checksums; chunk reassembly re-verified by MD5
+ * before deploy). Hugging Face mirrors are kept only as a last-resort
+ * fallback if the same-origin chunks cannot be fetched.
  *
  * MODE / AUTO heuristic (kept deliberately simple): unless the user forces a
  * model, look at the middle frame — if its mean luminance is low (< 80/255)
@@ -39,6 +43,9 @@ var MODELS = {
     mean: [0.485, 0.456, 0.406],
     std: [0.229, 0.224, 0.225],
     clip: true,
+    bytes: 175997641,
+    parts: 9,
+    chunkBase: "/assets/models/u2net.part",
     urls: [
       "https://huggingface.co/tomjackson2023/rembg/resolve/main/u2net.onnx",
       "https://huggingface.co/lucasfaesa/rembg-models/resolve/main/u2net.onnx"
@@ -50,6 +57,9 @@ var MODELS = {
     mean: [0.5, 0.5, 0.5],
     std: [1.0, 1.0, 1.0],
     clip: false,
+    bytes: 178648008,
+    parts: 9,
+    chunkBase: "/assets/models/isnet.part",
     urls: [
       "https://huggingface.co/tomjackson2023/rembg/resolve/main/isnet-general-use.onnx",
       "https://huggingface.co/lucasfaesa/rembg-models/resolve/main/isnet-general-use.onnx"
@@ -412,8 +422,38 @@ async function loadFile(file) {
 }
 
 /* ---------------- Model loading ---------------- */
-async function fetchModel(key) {
-  if (state.modelBuffers[key]) return state.modelBuffers[key];
+/* Primary path: the model is self-hosted on this origin, split into
+ * ~20 MB chunks (chunkBase + "00", "01", ...). Fetch the parts in order,
+ * stream them into one buffer, and assert the reassembled length matches
+ * the known model size before the buffer is trusted. */
+async function fetchModelChunks(key) {
+  var model = MODELS[key];
+  var total = model.bytes;
+  var buf = new Uint8Array(total);
+  var received = 0;
+  for (var p = 0; p < model.parts; p++) {
+    var resp = await fetch(model.chunkBase + (p < 10 ? "0" : "") + p);
+    if (!resp.ok) throw new Error("HTTP " + resp.status + " on model part " + (p + 1) + " of " + model.parts);
+    var reader = resp.body.getReader();
+    while (true) {
+      var part = await reader.read();
+      if (part.done) break;
+      if (received + part.value.length > total) throw new Error("model parts are larger than the expected " + total + " bytes");
+      buf.set(part.value, received);
+      received += part.value.length;
+      modelStatus.textContent = "Downloading the " + key.toUpperCase() + " model (one-time, ~" +
+        Math.round(total / 1048576) + " MB) — " + Math.round(received / total * 100) + "%" +
+        " (part " + (p + 1) + " of " + model.parts + ")...";
+      await yieldToUI();
+    }
+  }
+  if (received !== total) throw new Error("model download incomplete (" + received + " of " + total + " bytes)");
+  return buf.buffer;
+}
+
+/* Last-resort fallback: the Hugging Face mirrors (a third-party host, kept
+ * only for the case where the same-origin chunks cannot be fetched). */
+async function fetchModelFromUrls(key) {
   var urls = MODELS[key].urls;
   var lastErr = null;
   for (var u = 0; u < urls.length; u++) {
@@ -433,14 +473,26 @@ async function fetchModel(key) {
           (total ? Math.round(received / total * 100) + "%" : (received / 1048576).toFixed(0) + " MB") + "...";
         await yieldToUI();
       }
+      if (total && received !== total) throw new Error("mirror download incomplete (" + received + " of " + total + " bytes)");
       var buf = new Uint8Array(received);
       var off = 0;
       chunks.forEach(function (c) { buf.set(c, off); off += c.length; });
-      state.modelBuffers[key] = buf.buffer;
       return buf.buffer;
     } catch (e) { lastErr = e; }
   }
-  throw new Error("Could not download the AI model (" + (lastErr && lastErr.message) + "). Check your connection and try again.");
+  throw lastErr || new Error("no model source available");
+}
+
+async function fetchModel(key) {
+  if (state.modelBuffers[key]) return state.modelBuffers[key];
+  var buf = null, lastErr = null;
+  try { buf = await fetchModelChunks(key); } catch (e) { lastErr = e; }
+  if (!buf) {
+    try { buf = await fetchModelFromUrls(key); } catch (e) { lastErr = e; }
+  }
+  if (!buf) throw new Error("Could not download the AI model (" + (lastErr && lastErr.message) + "). Check your connection and try again.");
+  state.modelBuffers[key] = buf;
+  return buf;
 }
 
 async function getSession(key) {
