@@ -1,0 +1,14 @@
+/* GIF Cutout Pack page */
+.gp-hero { text-align: center; padding: 2.2rem 0 0.6rem; }
+.gp-title { font-family: "Press Start 2P", monospace; font-size: clamp(1.3rem, 4.5vw, 2.1rem); line-height: 1.5; margin: 0 0 0.9rem; }
+.gp-tagline { font-family: "VT323", monospace; font-size: 1.45rem; letter-spacing: 0.12em; color: var(--accent, #f0b35e); margin: 0; }
+.gp-intro { max-width: 640px; margin: 1.2rem auto 0; text-align: center; }
+.gp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin: 1.8rem 0 0.4rem; }
+.gp-item { background: #101736; border: 1px solid #263069; border-radius: 10px; padding: 0.8rem; }
+.gp-stage { background: #000; border-radius: 6px; min-height: 190px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.gp-stage img { max-width: 100%; max-height: 240px; display: block; }
+.gp-name { font-family: "VT323", monospace; font-size: 1.3rem; margin: 0.65rem 0 0.15rem; }
+.gp-meta { opacity: 0.75; font-size: 0.92rem; margin: 0; }
+.gp-download { text-align: center; margin: 2rem 0 0.6rem; }
+.gp-download .btn { font-size: 1.05rem; padding: 0.8rem 1.6rem; }
+.gp-note { text-align: center; opacity: 0.75; font-size: 0.92rem; max-width: 640px; margin: 0.6rem auto 2rem; }
