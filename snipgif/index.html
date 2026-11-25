@@ -157,8 +157,22 @@
 </section>
 
 <section class="card sg-story" id="story">
-  <h3 style="margin-top:0">The story</h3>
+  <h3 style="margin-top:0">About SnipGIF</h3>
   <p>SnipGIF exists because this channel's videos needed characters with their backgrounds cut clean — every cutout character in our Shorts comes from this page. The big hosted removers cap free clips at a few seconds, stamp a watermark, and only let you do one clip at a time. SnipGIF runs the same open-source AI models they use — u2net and ISNet, the models behind the open-source rembg project — entirely in your browser instead: no upload, no watermark, no account, and the mode picker lets you force the model that keeps props in hands or handles dark scenes.</p>
+  <h4>What you get back</h4>
+  <p>Drop in a GIF, an animated WebP, or a short MP4 (up to about 15 seconds) and get the character back with the background cut clean, frame by frame — like a rotoscope. Export a transparent GIF (the default — drops straight into chats, pages and most editors), a PNG sequence in a ZIP (cleanest edges, works everywhere), or an alpha WebM (smallest file, best for video overlays). Queue up to 5 files as a batch and they share one model download, one queue, one ZIP back. Optionally bake in a sticker effect before you export — WOBBLE, SHAKE or BOUNCE, with an intensity slider. The preview plays with the effect on, so what you see is exactly what you download.</p>
+  <h4>Two models, picked automatically</h4>
+  <p>One segmentation model is not good at every scene, so SnipGIF carries two and chooses between them. PERSON + PROPS (u2net) is for characters — the mode that keeps held objects intact: in the Short that produced the demo on this page, the character's APPROVED sign survives all 37 frames, where a human-only model would delete the sign. DARK SCENE (ISNet) is for dark footage and robots, where the first model smears the edges. AUTO, the default, inspects the middle frame's brightness and picks a side. Manual override is there for editors who already know their footage.</p>
+  <h4>Verified against the desktop pipeline</h4>
+  <p>SnipGIF is the browser port of the same pipeline this channel's videos are made with — same open-source models, same preprocessing. The output was compared frame by frame against the desktop pipeline on a real production GIF: the transparency masks agree on 99.9% of pixels. The browser version is not a toy approximation of the tool. It is the tool.</p>
+  <h4>The honest limits</h4>
+  <ul>
+    <li>The first run downloads a ~176 MB AI model — one time only, then it stays cached in your browser. On a slow connection that takes a while; afterwards it is a one-time cost.</li>
+    <li>Phones work, but a mid-range phone will chew through a 37-frame GIF slowly. A desktop browser is the intended home.</li>
+    <li>Clips are capped at about 15 seconds (max 120 frames; frames wider than 1280 px are downscaled). This is a character-cutting tool, not a video editor.</li>
+    <li>GIF transparency is 1-bit, so cut edges look slightly harder in a GIF than in PNG or WebM. For video overlays, the WebM or PNG sequence stays cleaner. The alpha WebM export needs a browser with WebCodecs VP9-alpha encoding (recent Chrome works).</li>
+  </ul>
+  <p>If it eats a prop, smears an edge, or refuses a file it should accept, that is a bug worth reporting — the tool gets better the same way the channel's pipeline did: one real file at a time.</p>
 </section>
 
 <p class="sg-footnotes">
