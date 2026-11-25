@@ -1,0 +1,15 @@
+# Cross-origin isolation for the SnipGIF tool page ONLY.
+# COOP + COEP turn on SharedArrayBuffer in the browser, which lets the
+# ONNX WASM runtime use up to 4 threads instead of 1 (see getSession in
+# assets/js/snipgif.js). "credentialless" is used so the page's third-party
+# subresources (jsDelivr libraries, Google Fonts, the analytics beacon)
+# keep loading without CORS credentials. Scoped to /snipgif/ so no other
+# page on the hub is affected; browsers that cannot do isolation simply
+# fall back to single-thread processing.
+/snipgif/
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: credentialless
+
+/snipgif/index.html
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: credentialless
