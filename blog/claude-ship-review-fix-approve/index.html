@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Ship Just Removed Humans From Code Review. Should You Trust It? | Blob</title>
+<meta name="description" content="Anthropic's Claude Ship closes the loop: agents review the pull request, fix what the review finds, and approve it against a policy file your team wrote. How the review–fix–approve loop actually works, the one number Anthropic leads with, and the three places a solo dev keeps a human finger on the button.">
+<link rel="canonical" href="https://blob.blob16exe.workers.dev/blog/claude-ship-review-fix-approve/">
+<meta property="og:title" content="Claude Ship Just Removed Humans From Code Review. Should You Trust It?">
+<meta property="og:description" content="One agent writes the PR, a second fixes it, a third approves it. How Claude Ship's loop works — and where the human still has to press the button.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://blob.blob16exe.workers.dev/assets/img/cleantake-logo-512.png">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5a31a7cc01d04b9daa232c9f4b43b3c2"}'></script><!-- End Cloudflare Web Analytics -->
+<link rel="icon" type="image/png" href="/assets/img/cleantake-logo-64.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Claude Ship Just Removed Humans From Code Review. Should You Trust It?",
+  "description": "Anthropic's Claude Ship closes the loop: agents review the pull request, fix what the review finds, and approve it against a policy file your team wrote. How the review–fix–approve loop actually works, the one number Anthropic leads with, and the three places a solo dev keeps a human finger on the button.",
+  "author": {
+    "@type": "Person",
+    "name": "Blob"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Blob",
+    "url": "https://blob.blob16exe.workers.dev/"
+  },
+  "datePublished": "2026-11-25",
+  "dateModified": "2026-11-25",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blob.blob16exe.workers.dev/blog/claude-ship-review-fix-approve/"
+  },
+  "inLanguage": "en"
+}
+</script>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a class="brand brand-pixel" href="/">BLOB.</a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/agents/">Agents</a>
+    <div class="nav-dropdown">
+      <button type="button" class="nav-drop-btn" aria-haspopup="true" aria-expanded="false">Projects <span class="nav-arrow" aria-hidden="true">&#9662;</span></button>
+      <div class="nav-drop-panel" hidden>
+        <a href="/snipgif/">SnipGIF <span class="drop-tag tag-main">MAIN</span></a>
+        <a href="/cleantake/">CleanTake <span class="drop-tag tag-free">FREE</span></a>
+      </div>
+    </div>
+    <a href="/about/">About</a>
+    <a class="btn btn-youtube" style="padding:.45rem 1rem" href="https://www.youtube.com/@blob16exe">YouTube</a>
+  </div>
+</div></nav>
+
+<main class="wrap prose">
+
+<p class="breadcrumb"><a href="/">home</a> / <a href="/blog/">blog</a> / claude-ship-review-fix-approve</p>
+
+<h1>Claude Ship Just Removed Humans From Code Review. Should You Trust It?</h1>
+
+<p class="form-note" style="font-family:var(--mono)">By Blob · November 25, 2026 · 8 min read</p>
+
+<p>Anyone who has opened a pull request knows the ping-pong. You finish a change, context-switch to the next thing, and then the review comes back. You stop, dig into code you already forgot writing, push a fix, wait for the checks to run again, then go find a human to approve it.</p>
+
+<p>That loop assumed people write every line, so a person checking every line was affordable. Agents broke the arithmetic. On Anthropic's own Claude Code team, Claude writes most of the code — and the bottleneck simply moved downstream, from writing to reviewing. On November 23, Anthropic shipped its answer, and the name is the pitch: <strong>Claude Ship</strong>. Agents review the pull request, fix what the review finds, and — this is the new part — approve it, if a policy file your team wrote says they may.</p>
+
+<p>The reviewer's chair was the last human seat in the pipeline. Claude Ship makes it optional. This post walks the loop piece by piece, checks the one number Anthropic leads with, and marks the exact places where a human still has to press the button — because "the AI approved it" is a sentence somebody will eventually have to say out loud in a postmortem.</p>
+
+<h2>Three agents, one assembly line</h2>
+
+<p>Claude Ship is not one agent. It is three, with deliberately separated jobs:</p>
+
+<p><strong>1. Code Review — the critic.</strong> This part is not new: announced in March, generally available since October. It reviews a pull request against the codebase "through multiple lenses," collects findings, then <em>adversarially verifies its own findings</em> before categorizing and posting them. Even the reviewer gets reviewed — by itself, but the instinct is sound. Teams pick a depth per repository: Quick, Standard, or Deep.</p>
+
+<p><strong>2. PR Steward — the fixer.</strong> New, in beta. It keeps a pull request green: failing CI checks, merge conflicts, and feedback from Code Review, other review tools, or human teammates. It is explicitly designed <em>not</em> to approve or merge anything. After every push it comments with what it changed and how to undo it. A developer can steer it by commenting <code>@claude</code> with an instruction, or dismiss it with <code>@claude stop</code>.</p>
+
+<p><strong>3. Claude Approvals — the judge.</strong> Also new, also beta, and the reason this launch matters. It applies an approval policy the team writes as a file in the repository — Anthropic calls it "a smarter CODEOWNERS file." The policy can tell Claude to weigh signals like Code Review findings, or the team's own classifiers written in natural language. If the policy allows it, Claude approves routine changes on its own. If not, it escalates to a human. Approvals switches on when a connected repository has a policy file on its default branch, and an admin can switch it off.</p>
+
+<p>For individual developers there is an on-ramp: the new <code>/ship</code> command in Claude Code. Run it and Claude pushes your change, opens the PR, reviews it, and works the feedback and failing checks toward mergeable — inside your permissions and your repository's branch rules. The full assembly line, though, is a Claude Team and Enterprise product, for GitHub repositories.</p>
+
+<h2>The loop, honestly drawn</h2>
+
+<p>Draw the loop on a whiteboard and it looks like textbook separation of duties: the writer doesn't grade, the fixer can't approve, the judge only applies written rules. Separation of duties is a real control — when the duties sit in different hands.</p>
+
+<p>Here, all three chairs belong to one vendor, and two of the three are occupied by the same model family that wrote the code being judged. The judge's evidence includes the critic's findings. The fixer's work is checked by the critic. Nobody in the loop has an incentive to slow the loop down, and nobody in it can say "this whole change shouldn't exist" — that question isn't in any of the three job descriptions.</p>
+
+<p>That is not a conspiracy; it's just what self-grading means at the organizational level. A system can be well-engineered and still be marking its own homework. Both things are true here, and holding both at once is the correct way to read the launch.</p>
+
+<h2>The one number, and what it doesn't say</h2>
+
+<p>Anthropic's headline evidence: on the Claude Code team, merged pull requests <strong>more than doubled from June to September</strong>, while the <strong>share of PRs later reverted fell by more than 40%</strong>.</p>
+
+<p>Good numbers. Now the fine print, most of it from Anthropic's own text:</p>
+
+<ul>
+  <li><strong>It's self-reported, on the vendor's own team</strong> — the team with the most experience prompting the tool, and the most reason to make it look good.</li>
+  <li><strong>Code Review was "one layer of a broader process"</strong> — their words. The doubling happened inside a process that still had humans in it.</li>
+  <li><strong>The number belongs to the safest part.</strong> It measures Code Review, the generally available component that only <em>comments</em>. The new, risky part — an agent approving merges — is in beta and has no number at all.</li>
+</ul>
+
+<p>The safest component of the product generated the headline statistic for the whole product. That is how launches work, and it's exactly why the statistic can't answer the only question that matters: what happens when the judge is wrong at machine speed?</p>
+
+<h2>Where your finger stays on the button</h2>
+
+<p>To Anthropic's credit, the launch is unusually honest about its own limits. The human checkpoints are still there — you just have to notice them, because the pitch walks past them quickly:</p>
+
+<p><strong>You write the policy.</strong> The policy file is the real approval; everything after it is execution. A loosely written policy doesn't approve one bad change — it approves a <em>category</em> of bad changes, forever, at machine speed. The most consequential code review in this system is the review of the policy file itself.</p>
+
+<p><strong>Observe-only comes first — Anthropic insists.</strong> Their recommendation for most customers: enable Approvals in observe-only mode, let it make shadow decisions, build confidence, and only then wire branch protection to require its green light. When the vendor selling you an autopilot tells you to watch it fly before letting its decisions count, believe them.</p>
+
+<p><strong>Watching the judge still costs money.</strong> Usage is token-billed. Claude Approvals has no base charge, but the classifiers inside a policy are billed on the tokens they use, and a policy that consults Code Review triggers a billed review — <em>even in observe mode</em>. The audit trail is not free. (Eligible Enterprise organizations can claim at least $10,000 in Ship credits, if claimed by January 15, 2027 — a subsidy for the trust-building phase, which tells you Anthropic knows that phase is the expensive one.)</p>
+
+<p><strong>Some shops can't hand over the chair at all.</strong> Claude Ship is unavailable to organizations with Zero Data Retention, the HIPAA configuration, or customer-managed encryption keys. Regulated teams keep human approvers by necessity, not nostalgia.</p>
+
+<p><strong>The disclaimer is the most honest feature.</strong> Anthropic's own caption for the product reads: "Claude Ship uses AI and may miss bugs, security vulnerabilities, or other issues." And in the launch's one fully narrated success story — a product manager ships a documentation fix the same evening via Claude Tag and Ship — a human docs reviewer still signed off before Claude Approvals passed it. Even the demo keeps a person in the loop.</p>
+
+<h2>What this means if you build solo</h2>
+
+<p>First, the practical bit: if you're a solo dev, you mostly can't buy this. The assembly line is Team/Enterprise. Your taste of it is <code>/ship</code> in Claude Code — and note what <code>/ship</code> cannot do: what merges still depends on your permissions and your branch rules. The button stays yours because the repository is yours.</p>
+
+<p>Second, the pattern is worth more than the product. Writer / fixer / approver as separate passes, with the fixer forbidden from approving and the approver bound to a written policy — that discipline costs nothing to copy. Any coding agent plus branch protection plus a short policy file ("never auto-merge auth, payments, migrations, or anything touching user data") gets you the shape of Ship without the invoice.</p>
+
+<p>Third, be honest about which seat is actually your bottleneck. For a one-person shop, fixing is the expensive seat: the failing check at midnight, the merge conflict in code you wrote three contexts ago. An automated fixer is tireless, reversible, and — in Steward's design — narrates every change and how to undo it. That's the seat to automate first.</p>
+
+<p>The approver's seat is different. A fixer that makes a mess leaves a mess you can revert. An approver that makes a mistake <em>ships</em> it. So set the trust dial by blast radius:</p>
+
+<ul>
+  <li><strong>Auto-approve:</strong> docs, comments, typo fixes, dependency bumps that pass the full test suite — changes whose worst case is embarrassment.</li>
+  <li><strong>Observe, then decide:</strong> ordinary feature code, where the agent's shadow record earns (or loses) your trust over a month of real PRs.</li>
+  <li><strong>Never:</strong> auth, payments, data migrations, permission changes — anything where "the policy allowed it" is not an acceptable sentence in a postmortem.</li>
+</ul>
+
+<h2>The verdict</h2>
+
+<p>Claude Ship is a reasonable answer to a real problem: agents write code faster than humans can review it, and pretending otherwise just turns review into rubber-stamping with extra latency. The review and fix stages genuinely earn their automation.</p>
+
+<p>But the approval step is where a team's standards live. Outsourcing the standard-keeping to the same system being held to the standard is the trade at the center of this launch, and no policy file fully closes it — because the policy file is interpreted by the system too.</p>
+
+<p>So: take the fixer. Rent the reviewer. Keep the judge's chair — or at minimum, make the agent sit in it in observe mode for a long while before its verdicts count. The button is small. Pressing it is the job.</p>
+
+<h2>Sources</h2>
+
+<p>Anthropic, "Introducing Claude Ship" (published November 23, 2026) — product structure, PR Steward and Claude Approvals behaviour, the doubled-merges / 40%-fewer-reverts figures, observe-only recommendation, billing details, availability limits, and the "may miss bugs" caption: <a href="https://claude.com/resources/articles/introducing-claude-ship">claude.com</a>. TechCrunch, "Anthropic launches Claude Ship, letting AI agents review, fix, and approve code changes" (November 23, 2026): <a href="https://techcrunch.com/2026/11/23/anthropic-launches-claude-ship-letting-ai-agents-review-fix-and-approve-code-changes/">techcrunch.com</a>. The Register, "Claude Ship puts AI at the helm of pull request approvals" (November 24, 2026): <a href="https://www.theregister.com/ai-and-ml/2026/11/24/claude-ship-puts-ai-at-the-helm-of-pull-request-approvals/5311883">theregister.com</a>. InfoWorld, "Anthropic launches Claude Ship, extending AI-assisted development to pull request approvals" (November 24, 2026): <a href="https://www.infoworld.com/article/4252505/anthropic-launches-claude-ship-extending-ai-assisted-development-to-pull-request-approvals.html">infoworld.com</a>.</p>
+
+<p>— Blob</p>
+
+<p class="form-note">Part of the full picture: <a href="/blog/ai-agents-solo-guide/">AI Agents for Solo Builders: The Whole Picture</a> — the pillar guide that ties every Blob agent post together.</p>
+
+<p><a href="/blog/">← All blog posts</a></p>
+
+</main>
+
+<footer><div class="wrap">
+  <a href="/privacy/">Privacy</a><a href="/docs/limits/">Limits</a><a href="/changelog/">Changelog</a>
+  <a href="https://x.com/blob16exe" data-event="outbound_github_click" data-event-detail='{"dest":"x"}'>X @blob16exe</a>
+  <span class="spacer">Blob, built in ESP32</span>
+</div></footer>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
