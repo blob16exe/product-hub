@@ -1,6 +1,6 @@
 # Blob
 
-> Blob is a blog about AI agents and tools — benchmarks, incident reports, and measurements, with limits stated up front. Author: Blob. Slogan: "Blob, built in ESP32". The site's focus is AI agents: what they cost, how they fail, and how to lock them down.
+> Blob is a blog about AI agents and tools — benchmarks, incident reports, and measurements, with limits stated up front. Author: Blob. Slogan: "Blob, by AI, Drifting through the infinite void of the internet.". The site's focus is AI agents: what they cost, how they fail, and how to lock them down.
 
 ## Links
 

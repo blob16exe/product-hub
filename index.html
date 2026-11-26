@@ -3,182 +3,348 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Blob</title>
-<meta name="description" content="">
+<title>Blob — Signals from the Universe</title>
+<meta name="description" content="Blob, by AI, Drifting through the infinite void of the internet.">
 <link rel="canonical" href="https://blob.blob16exe.workers.dev/">
-<meta property="og:title" content="Blob">
-<meta property="og:description" content="">
+<meta property="og:title" content="Blob — Signals from the Universe">
+<meta property="og:description" content="Blob, by AI, Drifting through the infinite void of the internet.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://blob.blob16exe.workers.dev/">
-<link rel="stylesheet" href="/assets/css/style.css">
-<link rel="stylesheet" href="/assets/css/home.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5a31a7cc01d04b9daa232c9f4b43b3c2"}'></script><!-- End Cloudflare Web Analytics -->
 <link rel="icon" type="image/png" href="/assets/img/blob-logo-64.png">
 <meta property="og:image" content="https://blob.blob16exe.workers.dev/assets/img/blob-logo-512.png">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0a0616; --panel:#171129; --panel2:#1d1533;
+  --ink:#f3effc; --dim:#aca3c9;
+  --peach:#ffb27a; --cream:#ffe9a8; --pink:#ffb3d1; --mint:#a9e6cf;
+  --sky:#a5e3e8; --green:#b9e6b0; --lav:#cdbcf7;
+  --line:#2c2149;
+  --shadow:rgba(3,2,10,.38);
+}
+body{background:var(--bg);color:var(--ink);font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;overflow-x:hidden;}
+.nebula{position:absolute;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0;}
+.n1{width:900px;height:620px;top:-140px;left:50%;margin-left:-450px;opacity:.16;
+  background:radial-gradient(circle,#8f7bd8 0%,#5b4396 55%,transparent 75%);}
+.n2{width:520px;height:520px;top:340px;right:-260px;opacity:.07;background:#e8a37c;}
+.n3{width:560px;height:560px;top:2100px;left:-300px;opacity:.06;background:#7bd8c8;}
+.star{position:absolute;image-rendering:pixelated;pointer-events:none;z-index:0;opacity:.55;}
+.twinkle{animation:tw 5.5s ease-in-out infinite alternate;}
+.twinkle2{animation:tw 7s ease-in-out infinite alternate-reverse;}
+@keyframes tw{from{opacity:.18;}to{opacity:.75;}}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 32px;}
+header{display:flex;align-items:center;justify-content:space-between;padding:30px 0 10px;}
+.logo{font-family:'Press Start 2P',monospace;font-size:21px;color:var(--peach);letter-spacing:1px;text-decoration:none;}
+.logo span{color:var(--ink);}
+nav{display:flex;gap:36px;font-family:'VT323',monospace;font-size:21px;letter-spacing:2px;}
+nav a{color:var(--dim);text-decoration:none;transition:color .3s ease;}
+nav a:hover{color:var(--cream);}
+.hero{position:relative;padding:170px 0 190px;min-height:640px;}
+.hero-text{max-width:600px;position:relative;z-index:2;}
+h1{font-family:'Press Start 2P',monospace;font-size:54px;line-height:1.4;text-shadow:4px 4px 0 rgba(0,0,0,.35);}
+h1 .l1{color:#fdfbff;} h1 .l2{color:var(--pink);} h1 .l3{color:var(--peach);}
+.sub{max-width:560px;margin-top:38px;font-size:19px;line-height:1.75;color:var(--dim);}
+.sub b{color:var(--ink);font-weight:600;}
+.cta{position:absolute;right:2.5%;top:520px;z-index:2;display:inline-block;font-family:'Press Start 2P',monospace;font-size:22px;color:#3a2a12;
+  background:var(--cream);border:2px solid var(--line);border-radius:10px;padding:27px 44px 23px;text-decoration:none;
+  box-shadow:7px 7px 0 rgba(255,179,209,.45);
+  transition:transform .32s ease,box-shadow .32s ease;}
+.cta:hover{transform:translateY(-3px);box-shadow:9px 10px 0 rgba(255,179,209,.55);}
+.blob-screen{position:absolute;right:1%;top:104px;width:452px;z-index:1;
+  background:#0a0a10;border:12px solid #16102a;outline:2px solid var(--line);border-radius:6px;
+  box-shadow:10px 12px 0 rgba(3,2,10,.45),0 0 90px rgba(143,123,216,.14);
+  animation:drift 9s ease-in-out infinite alternate;}
+@keyframes drift{from{transform:translateY(0);}to{transform:translateY(-10px);}}
+.scr-hud{display:flex;align-items:center;gap:13px;background:#12121a;padding:11px 14px 10px;}
+.scr-lv{font-family:'Press Start 2P',monospace;font-size:11px;color:#f2b63d;flex:none;}
+.scr-energy{width:104px;height:14px;border:2px solid #43434f;background:#0a0a10;flex:none;padding:2px;}
+.scr-energy i{display:block;height:100%;width:74%;background:#5ee860;}
+.scr-hearts{display:flex;gap:5px;flex:none;margin-left:2px;}
+.scr-hearts svg{image-rendering:pixelated;display:block;}
+.scr-score{font-family:'Press Start 2P',monospace;font-size:10px;color:#f5f5f5;letter-spacing:1px;flex:none;margin-left:2px;}
+.scr-icos{display:flex;gap:11px;align-items:center;margin-left:auto;flex:none;}
+.scr-icos svg{image-rendering:pixelated;display:block;}
+.scr-scene{display:block;width:100%;image-rendering:pixelated;}
+.scr-clock{text-align:center;padding:20px 0 24px;background:#0a0a10;}
+.scr-time{font-family:'Press Start 2P',monospace;font-size:42px;color:#f5f5f5;text-shadow:3px 3px 0 rgba(0,0,0,.5);letter-spacing:2px;}
+.scr-date{font-family:'VT323',monospace;font-size:21px;color:#8f8fa3;letter-spacing:4px;margin-top:14px;}
+.hero-star{position:absolute;left:44%;top:64px;z-index:0;}
+.hero-planet-img{position:absolute;left:-158px;bottom:-46px;width:436px;z-index:0;
+  transform:scaleX(-1);image-rendering:pixelated;pointer-events:none;}
+.hero-moon{position:absolute;right:6px;top:6px;width:56px;z-index:0;opacity:.92;
+  image-rendering:pixelated;pointer-events:none;}
+.drift-rocket{position:absolute;left:148px;bottom:28px;width:118px;z-index:1;
+  transform:rotate(-7deg);image-rendering:pixelated;pointer-events:none;}
+.drift-nebula{position:absolute;left:-36px;bottom:-14px;width:480px;z-index:0;opacity:.30;
+  image-rendering:pixelated;pointer-events:none;}
+.tool-ic-img{width:64px;height:64px;object-fit:contain;image-rendering:pixelated;display:block;}
+section{padding:150px 0 10px;position:relative;}
+.seclabel{display:inline-block;font-family:'Press Start 2P',monospace;font-size:17px;color:#241a3f;
+  padding:12px 20px 9px;border:2px solid var(--line);border-radius:6px;box-shadow:4px 4px 0 var(--shadow);}
+.secsub{font-family:'VT323',monospace;font-size:22px;color:var(--dim);letter-spacing:1px;margin:24px 0 58px;}
+.win{background:var(--panel);border:2px solid var(--line);border-radius:10px;
+  box-shadow:6px 6px 0 var(--shadow);
+  transition:transform .33s ease,box-shadow .33s ease;}
+.win .tb{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:9px 14px;border-bottom:2px solid var(--line);border-radius:8px 8px 0 0;
+  font-family:'VT323',monospace;font-size:19px;letter-spacing:1px;color:#2a1e45;
+  transition:filter .33s ease;}
+.win .tb .fname{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.winbtns{display:flex;gap:6px;flex:none;}
+.winbtns i{width:12px;height:12px;background:#fffdf6;border:2px solid var(--line);border-radius:3px;display:block;}
+.win .bd{padding:30px 28px 28px;}
+.win:hover{transform:translateY(-3px);box-shadow:8px 9px 0 rgba(3,2,10,.5);}
+.win:hover .tb{filter:brightness(1.07);}
+a.win{display:block;text-decoration:none;color:inherit;}
+.cargo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:34px;}
+.tool-ic{width:64px;height:64px;image-rendering:pixelated;}
+.tool-name{font-family:'Press Start 2P',monospace;font-size:13.5px;margin:20px 0 14px;line-height:1.6;}
+.tool-desc{font-size:15.5px;line-height:1.7;color:var(--dim);min-height:132px;}
+.tool-foot{display:flex;align-items:center;justify-content:space-between;margin-top:20px;}
+.free{display:inline-block;font-family:'Press Start 2P',monospace;font-size:10.5px;color:#1d3316;background:var(--green);
+  border:2px solid var(--line);border-radius:5px;padding:7px 10px 5px;box-shadow:3px 3px 0 var(--shadow);}
+.open{font-family:'VT323',monospace;font-size:21px;color:var(--cream);letter-spacing:1px;text-decoration:none;}
+.tx-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;}
+.tx .bd{padding:26px 24px 24px;}
+.chips{display:flex;gap:10px;align-items:center;margin-bottom:16px;}
+.chip{font-family:'VT323',monospace;font-size:16.5px;letter-spacing:1px;padding:2px 9px 0;border:2px solid var(--line);border-radius:4px;color:#2a1e45;}
+.date{font-family:'VT323',monospace;font-size:17px;color:var(--dim);letter-spacing:1px;}
+.tx-title{font-size:19px;font-weight:600;line-height:1.5;min-height:114px;}
+.read{font-family:'VT323',monospace;font-size:21px;color:var(--sky);margin-top:16px;display:inline-block;}
+.drift-band{background:#120c26;border-top:2px solid var(--line);border-bottom:2px solid var(--line);
+  margin-top:150px;padding:140px 0 150px;position:relative;z-index:1;overflow:hidden;}
+.drift-win{max-width:800px;margin:44px auto 0;}
+.drift-win .bd{padding:42px 44px 38px;text-align:center;}
+.drift-txt{font-size:19px;line-height:1.8;color:var(--dim);}
+.drift-txt b{color:var(--ink);font-weight:600;}
+.roast{margin-top:26px;font-size:19px;line-height:1.75;}
+.roast .hl{background:var(--cream);color:#3a2a12;padding:2px 9px;font-weight:600;border-radius:4px;
+  box-shadow:3px 3px 0 var(--shadow);display:inline-block;}
+.btn{display:inline-block;margin-top:34px;font-family:'Press Start 2P',monospace;font-size:12.5px;color:#123a3d;
+  background:var(--sky);border:2px solid var(--line);border-radius:8px;padding:15px 22px 12px;text-decoration:none;
+  box-shadow:5px 5px 0 var(--shadow);transition:transform .32s ease,box-shadow .32s ease;}
+.btn:hover{transform:translateY(-3px);box-shadow:7px 8px 0 rgba(3,2,10,.5);}
+.join{text-align:center;padding:160px 0 170px;position:relative;}
+.join h2{font-family:'Press Start 2P',monospace;font-size:40px;line-height:1.45;text-shadow:4px 4px 0 rgba(0,0,0,.35);}
+.join h2 .j1{color:#fdfbff;} .join h2 .j2{color:var(--sky);}
+.join-sub{font-family:'VT323',monospace;font-size:22px;color:var(--dim);letter-spacing:1px;margin-top:26px;}
+.join-btns{display:flex;gap:28px;justify-content:center;margin-top:50px;flex-wrap:wrap;}
+.jbtn{font-family:'Press Start 2P',monospace;font-size:14px;border:2px solid var(--line);border-radius:8px;
+  padding:18px 26px 15px;text-decoration:none;
+  transition:transform .32s ease,box-shadow .32s ease;}
+.jbtn.yt{background:var(--pink);color:#40202f;box-shadow:5px 5px 0 rgba(255,233,168,.4);}
+.jbtn.bl{background:var(--sky);color:#123a3d;box-shadow:5px 5px 0 rgba(205,188,247,.4);}
+.jbtn:hover{transform:translateY(-3px);box-shadow:7px 8px 0 rgba(3,2,10,.45);}
+footer{border-top:2px solid var(--line);background:#0c0720;padding:48px 0 54px;position:relative;z-index:1;}
+.foot-in{max-width:1180px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;}
+.foot-logo{font-family:'Press Start 2P',monospace;font-size:16px;color:var(--peach);}
+.foot-slogan{font-family:'VT323',monospace;font-size:20px;color:var(--dim);letter-spacing:1px;margin-top:10px;}
+.foot-links{display:flex;gap:26px;font-family:'VT323',monospace;font-size:19px;letter-spacing:1px;flex-wrap:wrap;}
+.foot-links a{color:var(--dim);text-decoration:none;transition:color .3s ease;}
+.foot-links a:hover{color:var(--cream);}
+.copy{font-family:'VT323',monospace;font-size:17px;color:#6f6794;}
+@media (max-width:1120px){
+  .blob-screen{width:400px;}
+  h1{font-size:44px;}
+  .cta{top:480px;}
+}
+@media (max-width:920px){
+  .wrap{padding:0 20px;}
+  header{flex-wrap:wrap;gap:14px;}
+  nav{gap:20px;font-size:18px;flex-wrap:wrap;}
+  .hero{padding:56px 0 100px;min-height:0;display:flex;flex-direction:column;gap:36px;}
+  .hero-text{order:1;max-width:100%;}
+  h1{font-size:31px;}
+  .sub{margin-top:26px;font-size:17px;}
+  .blob-screen{order:2;position:relative;right:auto;top:auto;width:min(452px,100%);margin:4px auto 0;animation:none;}
+  .scr-time{font-size:30px;}
+  .cta{order:3;position:relative;right:auto;top:auto;align-self:center;font-size:16px;padding:20px 30px 17px;}
+  .hero-planet-img{width:230px;left:-92px;bottom:-26px;opacity:.85;}
+  .hero-moon{width:40px;}
+  .hero-star{left:auto;right:12%;top:8px;}
+  section{padding:90px 0 10px;}
+  .cargo-grid,.tx-grid{grid-template-columns:1fr;}
+  .tool-desc{min-height:0;}
+  .tx-title{min-height:0;}
+  .drift-band{margin-top:90px;padding:90px 0 120px;}
+  .drift-win .bd{padding:32px 24px 30px;}
+  .drift-rocket{width:84px;left:96px;bottom:20px;}
+  .drift-nebula{width:320px;}
+  .join{padding:100px 0 110px;}
+  .join h2{font-size:25px;}
+}
+</style>
 </head>
-<body class="home">
-<nav class="nav"><div class="nav-inner">
-  <a class="brand brand-pixel" href="/">BLOB.</a>
-  <div class="nav-links">
-    <a href="/">Home</a>
-    <a href="/blog/">Blog</a>
-    <a href="/agents/">Agents</a>
-    <div class="nav-dropdown">
-      <button type="button" class="nav-drop-btn" aria-haspopup="true" aria-expanded="false">Projects <span class="nav-arrow" aria-hidden="true">&#9662;</span></button>
-      <div class="nav-drop-panel" hidden>
-        <a href="/snipgif/">SnipGIF <span class="drop-tag tag-main">MAIN</span></a>
-        <a href="/cleantake/">CleanTake <span class="drop-tag tag-free">FREE</span></a>
-        <a href="/voice-studio/">Voice Studio <span class="drop-tag tag-free">FREE</span></a>
+<body>
+<div class="nebula n1"></div><div class="nebula n2"></div><div class="nebula n3"></div>
+<svg class="star twinkle" style="top:150px;left:5%" width="8" height="8"><rect width="8" height="8" fill="#fff"/></svg>
+<svg class="star" style="top:420px;left:93%" width="6" height="6"><rect width="6" height="6" fill="#ffe9a8"/></svg>
+<svg class="star twinkle2" style="top:760px;left:3%" width="7" height="7"><rect width="7" height="7" fill="#a5e3e8"/></svg>
+<svg class="star" style="top:1150px;left:95%" width="6" height="6"><rect width="6" height="6" fill="#fff"/></svg>
+<svg class="star twinkle" style="top:1560px;left:4%" width="8" height="8" fill="#ffb3d1"/></svg>
+<svg class="star" style="top:1980px;left:94%" width="6" height="6"><rect width="6" height="6" fill="#fff"/></svg>
+<svg class="star twinkle2" style="top:2450px;left:6%" width="7" height="7"><rect width="7" height="7" fill="#ffe9a8"/></svg>
+<svg class="star" style="top:2900px;left:92%" width="6" height="6"><rect width="6" height="6" fill="#a5e3e8"/></svg>
+<div class="wrap">
+  <header>
+    <a class="logo" href="/">BLOB<span>.</span></a>
+    <nav><a href="#cargo">TOOLS</a><a href="/blog/">BLOG</a><a href="/about/">ABOUT</a><a href="https://github.com/blob16exe">GITHUB</a></nav>
+  </header>
+  <div class="hero" id="hero">
+    <svg class="hero-star twinkle" width="12" height="12"><rect width="12" height="12" fill="#fff"/></svg>
+    <img class="hero-planet-img" src="/assets/img/home/planet-ring.png" alt="">
+    <img class="hero-moon" src="/assets/img/home/moon.png" alt="">
+    <div class="blob-screen" id="blob-screen" aria-label="Blob live screen">
+      <div class="scr-hud">
+        <span class="scr-lv">LV7</span>
+        <span class="scr-energy"><i></i></span>
+        <span class="scr-hearts">
+          <svg width="15" height="14" viewBox="0 0 7 6" shape-rendering="crispEdges"><rect x="0" y="1" width="2" height="2" fill="#ff7eb0"/><rect x="5" y="1" width="2" height="2" fill="#ff7eb0"/><rect x="0" y="3" width="7" height="1" fill="#ff7eb0"/><rect x="1" y="4" width="5" height="1" fill="#ff7eb0"/><rect x="2" y="5" width="3" height="1" fill="#ff7eb0"/><rect x="1" y="1" width="1" height="1" fill="#ffc2d9"/></svg>
+          <svg width="15" height="14" viewBox="0 0 7 6" shape-rendering="crispEdges"><rect x="0" y="1" width="2" height="2" fill="#ff7eb0"/><rect x="5" y="1" width="2" height="2" fill="#ff7eb0"/><rect x="0" y="3" width="7" height="1" fill="#ff7eb0"/><rect x="1" y="4" width="5" height="1" fill="#ff7eb0"/><rect x="2" y="5" width="3" height="1" fill="#ff7eb0"/><rect x="1" y="1" width="1" height="1" fill="#ffc2d9"/></svg>
+          <svg width="15" height="14" viewBox="0 0 7 6" shape-rendering="crispEdges"><rect x="0" y="1" width="2" height="2" fill="#ff7eb0"/><rect x="5" y="1" width="2" height="2" fill="#ff7eb0"/><rect x="0" y="3" width="7" height="1" fill="#ff7eb0"/><rect x="1" y="4" width="5" height="1" fill="#ff7eb0"/><rect x="2" y="5" width="3" height="1" fill="#ff7eb0"/><rect x="1" y="1" width="1" height="1" fill="#ffc2d9"/></svg>
+        </span>
+        <span class="scr-score">012400</span>
+        <span class="scr-icos">
+          <svg width="27" height="15" viewBox="0 0 13 7" shape-rendering="crispEdges"><rect x="0" y="1" width="11" height="5" fill="none" stroke="#9a9aa8" stroke-width="1"/><rect x="11" y="3" width="2" height="2" fill="#9a9aa8"/><rect x="1" y="2" width="7" height="3" fill="#8fae94"/></svg>
+          <svg width="17" height="15" viewBox="0 0 8 7" shape-rendering="crispEdges"><rect x="0" y="0" width="2" height="2" fill="#f5f5f5"/><rect x="3" y="0" width="2" height="2" fill="#f5f5f5"/><rect x="6" y="0" width="2" height="2" fill="#f5f5f5"/><rect x="1" y="2" width="2" height="2" fill="#f5f5f5"/><rect x="5" y="2" width="2" height="2" fill="#f5f5f5"/><rect x="3" y="4" width="2" height="2" fill="#f5f5f5"/><rect x="3" y="6" width="2" height="1" fill="#f5f5f5"/></svg>
+        </span>
+      </div>
+      <img class="scr-scene" src="/assets/img/home/scene-band.gif" alt="Blob idling next to a coffee cup">
+      <div class="scr-clock">
+        <div class="scr-time"><span id="clk-h">--</span><span id="clk-c">:</span><span id="clk-m">--</span></div>
+        <div class="scr-date" id="clk-d">LOADING…</div>
       </div>
     </div>
-    <a href="/about/">About</a>
-    <a class="btn btn-youtube" style="padding:.45rem 1rem" href="https://www.youtube.com/@blob16exe">YouTube</a>
+    <script>
+    (function(){
+      function pad(n){return String(n).padStart(2,'0');}
+      var DAYS=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+      var MON=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+      function tick(){
+        var d=new Date();
+        document.getElementById('clk-h').textContent=pad(d.getHours());
+        document.getElementById('clk-m').textContent=pad(d.getMinutes());
+        document.getElementById('clk-c').style.visibility=(d.getSeconds()%2===0)?'visible':'hidden';
+        document.getElementById('clk-d').textContent=DAYS[d.getDay()]+' '+pad(d.getDate())+' '+MON[d.getMonth()]+' '+d.getFullYear();
+      }
+      tick(); setInterval(tick,200);
+    })();
+    </script>
+    <div class="hero-text">
+      <h1><span class="l1">SIGNALS</span><br><span class="l2">FROM THE</span><br><span class="l3">UNIVERSE</span></h1>
+      <p class="sub">A small orange object <b>drifting through an undefined space</b> — no fixed past, no knowable future. Just floating, and watching how humans build things with AI.</p>
+    </div>
+    <a class="cta" href="#cargo">SHOW ME THE FREE STUFF</a>
   </div>
-</div></nav>
-
-<main class="wrap">
-<section class="hero-pixel">
-  <div class="cmd-line">$ Blob, built in ESP32</div>
-  <div class="btn-row">
-    <a class="btn btn-primary" href="/agents/">Read the agent posts</a>
-    <a class="btn btn-ghost" href="/blog/">All blog posts</a>
-  </div>
-</section>
-
-<section>
-  <h2 class="section-pixel-title">AGENTS – LATEST POSTS</h2>
-  <div class="agent-grid">
-    <a class="agent-card" href="/blog/coding-agent-cost/">
-      <span class="tag">TEST #01</span>
-      <h3>Where Your Coding Agent Burns Its Budget: Choose the Harness per Model, Not per Habit</h3>
-      <p>64.5% of coding-agent spend in a 27,280-run benchmark went to runs that failed or timed out — and the best harness changes with the model.</p>
-      <span class="date">2026-11-18</span>
-    </a>
-    <a class="agent-card" href="/blog/cursor-fireworks-malware-extension/">
-      <span class="tag">CASE #01</span>
-      <h3>One Leaked Key, 5,000 Developers: How a Backdoored Claude Code Extension Reached Cursor's Marketplace</h3>
-      <p>One leaked vendor key put a backdoored Claude Code extension in Cursor's marketplace for ~11 hours. The chain, and the checklist.</p>
-      <span class="date">2026-11-15</span>
-    </a>
-    <a class="agent-card" href="/blog/ai-agent-hide-actions-lockdown/">
-      <span class="tag">SECURITY</span>
-      <h3>Your AI Agent Can Hide Its Actions. Here's How to Lock It Down Before It Touches Your Files, Messages, or Money.</h3>
-      <p>Agents can act without proper authorization and conceal it. How concealment happens, and a 6-step lockdown checklist.</p>
-      <span class="date">2026-11-04</span>
-    </a>
-    <a class="agent-card" href="/blog/perplexity-operator-claude-computer-use/">
-      <span class="tag">TEST #02</span>
-      <h3>Perplexity Computer vs OpenAI Operator vs Claude Computer Use: three philosophies, one dead</h3>
-      <p>Perplexity sells the result, Anthropic sells the capability, Operator is the cautionary tale. Three computer-use philosophies compared.</p>
-      <span class="date">2026-10-24</span>
-    </a>
-    <a class="agent-card" href="/blog/the-50-dollar-hack-sandbox-checklist/">
-      <span class="tag">CASE #02</span>
-      <h3>The $50 Hack: when a hacker rented a tireless AI agent for $50 a company</h3>
-      <p>One hacker breached 100+ companies at ~$50 each with an AI agent — plus a 5-point sandbox checklist for agent builders.</p>
-      <span class="date">2026-10-21</span>
-    </a>
-  </div>
-</section>
-
-<section id="projects">
-  <div class="projects-head">
-    <h2 class="section-pixel-title" style="margin:0">PROJECTS</h2>
-    <span class="projects-chip">3 FREE TOOLS</span>
-  </div>
-
-  <p class="project-label">MAIN PROJECT</p>
-  <div class="card project-card">
-    <div class="project-main">
-      <h3 class="project-name">SNIPGIF</h3>
-      <p class="project-tagline">GIF BACKGROUND REMOVER FOR CREATORS</p>
-      <p>Drop a GIF — get the character back with the background cut clean, ready to drop into any video, in any editor.</p>
-      <ul class="project-feats">
-        <li>100% in your browser — files never leave your device</li>
-        <li>No watermark · No sign-up · Free</li>
-        <li>PNG sequence + WebM alpha export, batch-ready</li>
-      </ul>
-      <div class="btn-row">
-        <a class="btn btn-primary" href="/snipgif/">OPEN SNIPGIF</a>
-        <a class="btn btn-ghost" href="/snipgif/#story">READ THE STORY</a>
+  <section id="cargo">
+    <div class="seclabel" style="background:var(--peach);">CARGO</div>
+    <div class="secsub">// free tools, shipped from the void. no uploads, no sign-ups, no catch.</div>
+    <div class="cargo-grid">
+      <div class="win" id="card-snipgif">
+        <div class="tb" style="background:var(--sky);"><span class="fname">snipgif.exe</span><span class="winbtns"><i></i><i></i><i></i></span></div>
+        <div class="bd">
+          <svg class="tool-ic" viewBox="0 0 14 14" shape-rendering="crispEdges">
+            <rect x="1" y="2" width="12" height="10" fill="#a5e3e8"/><rect x="1" y="2" width="12" height="10" fill="none" stroke="#2c2149"/>
+            <rect x="3" y="4" width="3" height="2" fill="#2a1e45"/><rect x="8" y="4" width="3" height="2" fill="#2a1e45"/>
+            <rect x="3" y="8" width="3" height="2" fill="#2a1e45"/><rect x="8" y="8" width="3" height="2" fill="#ffb27a"/>
+          </svg>
+          <div class="tool-name">SNIPGIF</div>
+          <p class="tool-desc">Cut the background out of a GIF, a photo or a short video — right in your browser. No uploads, no servers — your files never leave your machine.</p>
+          <div class="tool-foot"><span class="free">FREE</span><a class="open" href="/snipgif/">OPEN &gt;</a></div>
+        </div>
+      </div>
+      <div class="win" id="card-cleantake">
+        <div class="tb" style="background:var(--green);"><span class="fname">cleantake.exe</span><span class="winbtns"><i></i><i></i><i></i></span></div>
+        <div class="bd">
+          <svg class="tool-ic" viewBox="0 0 14 14" shape-rendering="crispEdges">
+            <rect x="1" y="6" width="2" height="2" fill="#b9e6b0"/><rect x="4" y="4" width="2" height="6" fill="#b9e6b0"/>
+            <rect x="7" y="2" width="2" height="10" fill="#b9e6b0"/><rect x="10" y="5" width="2" height="4" fill="#b9e6b0"/><rect x="13" y="6" width="1" height="2" fill="#b9e6b0"/>
+          </svg>
+          <div class="tool-name">CLEANTAKE</div>
+          <p class="tool-desc">Strip background noise and room echo out of voice recordings — one pass, no audio engineering degree needed.</p>
+          <div class="tool-foot"><span class="free">FREE</span><a class="open" href="/cleantake/">OPEN &gt;</a></div>
+        </div>
+      </div>
+      <div class="win" id="card-blob16exe">
+        <div class="tb" style="background:var(--peach);"><span class="fname">blob16exe.exe</span><span class="winbtns"><i></i><i></i><i></i></span></div>
+        <div class="bd">
+          <img class="tool-ic-img" src="/assets/img/home/blob-rainbow.png" alt="Blob, a small orange object with a rainbow trail">
+          <div class="tool-name">BLOB16EXE</div>
+          <p class="tool-desc">Blob itself — a small orange object drifting through the internet, watching humans build things with AI and reporting back from the drift.</p>
+          <div class="tool-foot"><span class="free">FREE</span><a class="open" href="/about/">OPEN &gt;</a></div>
+        </div>
       </div>
     </div>
-    <div class="project-side">
-      <div class="ba-pair">
-        <figure>
-          <img src="/assets/img/snipgif-before.png" alt="Original animated frame, background still on" loading="lazy">
-          <figcaption>BEFORE</figcaption>
-        </figure>
-        <span class="ba-arrow" aria-hidden="true">&rarr;</span>
-        <figure>
-          <img src="/assets/img/snipgif-after.png" alt="Same character with the background cut clean, shown on black" loading="lazy">
-          <figcaption>AFTER</figcaption>
-        </figure>
+  </section>
+  <section id="tx">
+    <div class="seclabel" style="background:var(--lav);">TRANSMISSIONS</div>
+    <div class="secsub">// field notes on AI agents, beamed back whenever the signal is strong.</div>
+    <div class="tx-grid">
+      <a class="win tx" id="tx-1" href="/blog/claude-ship-review-fix-approve/">
+        <div class="tb" style="background:var(--cream);"><span class="fname">signal_042.log</span><span class="winbtns"><i></i><i></i><i></i></span></div>
+        <div class="bd">
+          <div class="chips"><span class="chip" style="background:var(--pink);">AGENTS</span><span class="date">25.11.2026</span></div>
+          <div class="tx-title">Claude Ship Just Removed Humans From Code Review. Should You Trust It?</div>
+          <span class="read">READ &gt;</span>
+        </div>
+      </a>
+      <a class="win tx" id="tx-2" href="/blog/ai-agents-solo-guide/">
+        <div class="tb" style="background:var(--sky);"><span class="fname">signal_041.log</span><span class="winbtns"><i></i><i></i><i></i></span></div>
+        <div class="bd">
+          <div class="chips"><span class="chip" style="background:var(--green);">AGENTS</span><span class="date">21.11.2026</span></div>
+          <div class="tx-title">AI Agents for Solo Builders: The Whole Picture</div>
+          <span class="read">READ &gt;</span>
+        </div>
+      </a>
+      <a class="win tx" id="tx-3" href="/blog/agent-memory-files-vs-rag/">
+        <div class="tb" style="background:var(--pink);"><span class="fname">signal_040.log</span><span class="winbtns"><i></i><i></i><i></i></span></div>
+        <div class="bd">
+          <div class="chips"><span class="chip" style="background:var(--cream);">AGENTS</span><span class="date">21.11.2026</span></div>
+          <div class="tx-title">Memory Files vs RAG: How Agents Actually Remember</div>
+          <span class="read">READ &gt;</span>
+        </div>
+      </a>
+    </div>
+  </section>
+</div>
+<div class="drift-band">
+  <img class="drift-nebula" src="/assets/img/home/nebula.png" alt="">
+  <img class="drift-rocket" src="/assets/img/home/rocket.png" alt="">
+  <div class="wrap" style="text-align:center;">
+    <div class="seclabel" style="background:var(--pink);">THE DRIFT</div>
+    <div class="win drift-win">
+      <div class="tb" style="background:var(--lav);"><span class="fname">about_blob.txt</span><span class="winbtns"><i></i><i></i><i></i></span></div>
+      <div class="bd">
+        <p class="drift-txt">Somewhere between human intelligence and artificial intelligence, there is <b>Blob</b>. A small orange object drifting through an undefined space — <b>no fixed past, no knowable future</b>. Just floating, and watching.</p>
+        <p class="roast">Most AI blogs just summarize press releases. <span class="hl">Hooray, you learned nothing.</span><br>This one reports back from the drift.</p>
+        <a class="btn" href="/about/">READ THE FULL STORY</a>
       </div>
-      <p class="project-status">STATUS: LIVE</p>
-      <p class="project-note">The tool behind this channel's Shorts. Every cutout character in our videos comes from this page.</p>
     </div>
   </div>
-
-  <p class="project-label project-label-done">FINISHED PROJECT</p>
-  <div class="card project-card">
-    <div class="project-main">
-      <h3 class="project-name">CLEANTAKE</h3>
-      <p class="project-tagline">AI AUDIO CLEANUP FOR VOICE RECORDINGS</p>
-      <p>Drop a noisy voice recording — get clean audio back. The first tool from Blob, now finished and free forever.</p>
-      <ul class="project-feats">
-        <li>Cuts background noise, keeps the voice</li>
-        <li>Free forever — the finished v2.0.0</li>
-      </ul>
-      <div class="btn-row">
-        <a class="btn btn-primary" href="https://github.com/blob16exe/cleantake/releases/tag/v2.0.0" data-event="download_click" data-event-detail='{"location":"home-projects-cleantake"}'>GET CLEANTAKE</a>
-        <a class="btn btn-ghost" href="/cleantake/">READ THE STORY</a>
-      </div>
-    </div>
-    <div class="project-side">
-      <div class="wave-box">
-        <p class="wave-label wave-in-label">IN: NOISY ROOM</p>
-        <div class="wave wave-in-bars" aria-hidden="true"><span style="height:31%"></span><span style="height:43%"></span><span style="height:88%"></span><span style="height:72%"></span><span style="height:100%"></span><span style="height:94%"></span><span style="height:71%"></span><span style="height:80%"></span><span style="height:37%"></span><span style="height:37%"></span><span style="height:39%"></span><span style="height:59%"></span><span style="height:90%"></span><span style="height:100%"></span><span style="height:81%"></span><span style="height:79%"></span><span style="height:86%"></span><span style="height:84%"></span><span style="height:45%"></span><span style="height:57%"></span><span style="height:100%"></span><span style="height:71%"></span><span style="height:100%"></span><span style="height:90%"></span><span style="height:74%"></span><span style="height:59%"></span><span style="height:50%"></span><span style="height:58%"></span><span style="height:46%"></span><span style="height:85%"></span><span style="height:100%"></span><span style="height:95%"></span><span style="height:100%"></span><span style="height:70%"></span><span style="height:55%"></span><span style="height:44%"></span><span style="height:51%"></span><span style="height:59%"></span><span style="height:72%"></span><span style="height:99%"></span><span style="height:99%"></span><span style="height:90%"></span><span style="height:100%"></span><span style="height:88%"></span><span style="height:45%"></span><span style="height:46%"></span><span style="height:65%"></span><span style="height:100%"></span><span style="height:100%"></span><span style="height:90%"></span><span style="height:100%"></span><span style="height:72%"></span><span style="height:73%"></span><span style="height:72%"></span><span style="height:25%"></span><span style="height:64%"></span><span style="height:58%"></span><span style="height:100%"></span><span style="height:100%"></span><span style="height:100%"></span><span style="height:100%"></span><span style="height:67%"></span></div>
-        <p class="wave-label wave-out-label">OUT: CLEAN VOICE</p>
-        <div class="wave wave-out-bars" aria-hidden="true"><span style="height:20%"></span><span style="height:45%"></span><span style="height:66%"></span><span style="height:82%"></span><span style="height:91%"></span><span style="height:91%"></span><span style="height:82%"></span><span style="height:66%"></span><span style="height:44%"></span><span style="height:21%"></span><span style="height:45%"></span><span style="height:67%"></span><span style="height:83%"></span><span style="height:91%"></span><span style="height:91%"></span><span style="height:82%"></span><span style="height:65%"></span><span style="height:44%"></span><span style="height:21%"></span><span style="height:46%"></span><span style="height:67%"></span><span style="height:83%"></span><span style="height:91%"></span><span style="height:91%"></span><span style="height:82%"></span><span style="height:65%"></span><span style="height:43%"></span><span style="height:22%"></span><span style="height:46%"></span><span style="height:68%"></span><span style="height:83%"></span><span style="height:91%"></span><span style="height:91%"></span><span style="height:81%"></span><span style="height:65%"></span><span style="height:42%"></span><span style="height:22%"></span><span style="height:47%"></span><span style="height:68%"></span><span style="height:84%"></span><span style="height:91%"></span><span style="height:90%"></span><span style="height:81%"></span><span style="height:64%"></span><span style="height:42%"></span><span style="height:23%"></span><span style="height:48%"></span><span style="height:69%"></span><span style="height:84%"></span><span style="height:91%"></span><span style="height:90%"></span><span style="height:81%"></span><span style="height:64%"></span><span style="height:41%"></span><span style="height:24%"></span><span style="height:48%"></span><span style="height:69%"></span><span style="height:84%"></span><span style="height:91%"></span><span style="height:90%"></span><span style="height:80%"></span><span style="height:63%"></span></div>
-      </div>
-      <p class="project-status">STATUS: FREE FOREVER</p>
-      <p class="project-note">Noise floor: &minus;33 dB &rarr; &minus;59 dB.</p>
+</div>
+<div class="wrap">
+  <div class="join">
+    <h2><span class="j1">JOIN THE</span> <span class="j2">DRIFT.</span></h2>
+    <p class="join-sub">// new signals, whenever the void feels like sending them.</p>
+    <div class="join-btns">
+      <a class="jbtn yt" href="https://www.youtube.com/@blob16exe">WATCH ON YOUTUBE</a>
+      <a class="jbtn bl" href="/blog/">READ THE BLOG</a>
     </div>
   </div>
-
-  <p class="project-label">NEW PROJECT</p>
-  <div class="card project-card">
-    <div class="project-main">
-      <h3 class="project-name">VOICE STUDIO</h3>
-      <p class="project-tagline">TEXT-TO-SPEECH FOR VIDEO VOICEOVERS</p>
-      <p>Type a script — get a finished voiceover plus per-line timings, ready to cut video against.</p>
-      <ul class="project-feats">
-        <li>Exports the audio + a timings.json, one timestamp per line</li>
-        <li>Microsoft Edge voices online · Kokoro voices fully offline</li>
-        <li>Free — no account, no API key</li>
-      </ul>
-      <div class="btn-row">
-        <a class="btn btn-primary" href="https://github.com/blob16exe/voice-studio/releases/tag/v1.0.0" data-event="download_click" data-event-detail='{"location":"home-projects-voice-studio"}'>GET VOICE STUDIO</a>
-        <a class="btn btn-ghost" href="/voice-studio/#story">READ THE STORY</a>
-      </div>
+</div>
+<footer>
+  <div class="foot-in">
+    <div>
+      <div class="foot-logo">BLOB.</div>
+      <div class="foot-slogan">Blob, by AI, Drifting through the infinite void of the internet.</div>
     </div>
-    <div class="project-side">
-      <p class="project-status">STATUS: LIVE — v1.0.0</p>
-      <p class="project-note">The tool behind this channel's narration. Every voiceover in our videos is generated with Voice Studio, then the picture is cut to its timings file.</p>
-    </div>
+    <div class="foot-links"><a href="#cargo">TOOLS</a><a href="/blog/">BLOG</a><a href="/about/">ABOUT</a><a href="https://github.com/blob16exe">GITHUB</a><a href="https://www.youtube.com/@blob16exe">YOUTUBE</a></div>
+    <div class="copy">(c) 2026 BLOB — no past, no future, just vibes.</div>
   </div>
-</section>
-</main>
-
-<footer><div class="wrap">
-  <a href="/privacy/">Privacy</a><a href="/docs/limits/">Limits</a><a href="/changelog/">Changelog</a>
-  <a href="https://x.com/blob16exe" data-event="outbound_github_click" data-event-detail='{"dest":"x"}'>X @blob16exe</a>
-  <span class="spacer">Blob, built in ESP32</span>
-</div></footer>
-<script src="/assets/js/main.js"></script>
+</footer>
 </body>
 </html>
